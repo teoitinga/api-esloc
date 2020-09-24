@@ -58,8 +58,8 @@ public class ProdutorServiceImpl implements ProdutorService {
 		return Persona.builder()
 				.nome(produtorDto.getNome())
 				.cpf(produtorDto.getCpf())
-				.fone(produtorDto.getFone())
-				.dataNascimento(LocalDate.parse(produtorDto.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+				.contato(produtorDto.getFone())
+				.nascimento(LocalDate.parse(produtorDto.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
 				.build();
 	}
 	
@@ -72,12 +72,16 @@ public class ProdutorServiceImpl implements ProdutorService {
 	@Override
 	public ProdutorDto toProdutorDto(Persona toSaved) {
 		return ProdutorDto.builder()
-				.id(toSaved.getId())
 				.nome(toSaved.getNome())
 				.cpf(toSaved.getCpf())
-				.fone(toSaved.getFone())
-				.dataNascimento(String.valueOf(toSaved.getDataNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
+				.fone(toSaved.getContato())
+				.dataNascimento(String.valueOf(toSaved.getNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
 				.build();
+	}
+
+	@Override
+	public Persona getByCpf(String cpfProdutor) {
+		return repository.findByCpf(cpfProdutor).orElseThrow(()-> new ProdutorNotFound());
 	}
 
 

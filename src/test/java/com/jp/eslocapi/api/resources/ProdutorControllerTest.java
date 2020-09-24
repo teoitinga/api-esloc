@@ -48,26 +48,26 @@ public class ProdutorControllerTest {
 	@DisplayName("Deve atualizar um registro de produtor")
 	public void updateProdutorTest() throws Exception {
 		//cenário (given)
-		Long idProdutor = 1L;
+		String cpfProdutor = "04459471604";
 		
 		ProdutorDto dto;
 		dto = createNewProdutorDto();
 		
 		ProdutorDto response  = createNewProdutorDto();
-		response.setId(idProdutor);
+		response.setCpf(cpfProdutor);
 		
 		Persona responseProdutor  = createNewProdutor();
-		response.setId(idProdutor);
+		responseProdutor.setCpf(cpfProdutor);
 		
 		String json = new ObjectMapper().writeValueAsString(dto);
 		
-		BDDMockito.given(service.getById(idProdutor)).willReturn(responseProdutor);
+		BDDMockito.given(service.getByCpf(cpfProdutor)).willReturn(responseProdutor);
 		
 		BDDMockito.given(service.update(dto)).willReturn(response);
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-				.put(String.format("%s%s%x",PRODUTOR_API,"/",idProdutor))
+				.put(String.format("%s%s%s",PRODUTOR_API,"/",cpfProdutor))
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json);
@@ -75,7 +75,6 @@ public class ProdutorControllerTest {
 		//verificação
 		mvc.perform(request)
 		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("id").isNotEmpty())
 		.andExpect(MockMvcResultMatchers.jsonPath("nome").value("João Paulo"))
 		.andExpect(MockMvcResultMatchers.jsonPath("cpf").value("04459471604"))
 		.andExpect(MockMvcResultMatchers.jsonPath("fone").value("33999065029"))
@@ -85,23 +84,23 @@ public class ProdutorControllerTest {
 	@DisplayName("Deve retornar erro ao atualizar um registro de produtor não registrado")
 	public void updateNotFoundProdutorTest() throws Exception {
 		//cenário (given)
-		Long idProdutor = 1L;
+		String cpfProdutor = "04459471604";
 		
 		ProdutorDto dto;
 		dto = createNewProdutorDto();
 		
 		ProdutorDto response  = createNewProdutorDto();
-		response.setId(idProdutor);
+		response.setCpf(cpfProdutor);
 		
 		String json = new ObjectMapper().writeValueAsString(dto);
 		
-		BDDMockito.given(service.getById(Mockito.anyLong())).willThrow(new ProdutorNotFound());
+		BDDMockito.given(service.getByCpf(Mockito.anyString())).willThrow(new ProdutorNotFound());
 		
 		BDDMockito.given(service.update(dto)).willReturn(response);
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-				.put(String.format("%s%s%x",PRODUTOR_API,"/",idProdutor))
+				.put(String.format("%s%s%s",PRODUTOR_API,"/",cpfProdutor))
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json);
@@ -116,16 +115,16 @@ public class ProdutorControllerTest {
 	public void createTest() throws Exception {
 		//cenário (given)
 
-		Long idProdutor = 12L;
+		String cpfProdutor = "04459471604";
 		
 		ProdutorDto dto;
 		dto = createNewProdutorDto();
 		
 		Persona response  = createNewProdutor();
-		response.setId(idProdutor);
+		response.setCpf(cpfProdutor);
 		
 		ProdutorDto responseProdutor  = createNewProdutorDto();
-		responseProdutor.setId(idProdutor);
+		responseProdutor.setCpf(cpfProdutor);
 		
 		String json = new ObjectMapper().writeValueAsString(dto);
 		
@@ -143,7 +142,6 @@ public class ProdutorControllerTest {
 		//verificação
 		mvc.perform(request)
 		.andExpect(MockMvcResultMatchers.status().isCreated())
-		.andExpect(MockMvcResultMatchers.jsonPath("id").isNotEmpty())
 		.andExpect(MockMvcResultMatchers.jsonPath("nome").value("João Paulo"))
 		.andExpect(MockMvcResultMatchers.jsonPath("cpf").value("04459471604"))
 		.andExpect(MockMvcResultMatchers.jsonPath("fone").value("33999065029"))
@@ -168,7 +166,7 @@ public class ProdutorControllerTest {
 
 		mvc.perform(request)
 		.andExpect(MockMvcResultMatchers.status().isBadRequest())
-		.andExpect(MockMvcResultMatchers.jsonPath("errors", org.hamcrest.Matchers.hasSize(4)))
+		.andExpect(MockMvcResultMatchers.jsonPath("errors", org.hamcrest.Matchers.hasSize(5)))
 		;
 	}
 	@Test
@@ -176,16 +174,16 @@ public class ProdutorControllerTest {
 	public void createProdutorWithDuplicatedCpf()  throws Exception {
 		//cenário (given)
 
-		Long idProdutor = 12L;
+		String cpfProdutor = "04459471604";
 		
 		ProdutorDto dto;
 		dto = createNewProdutorDto();
 		
 		Persona response  = createNewProdutor();
-		response.setId(idProdutor);
+		response.setCpf(cpfProdutor);
 		
 		ProdutorDto responseProdutor  = createNewProdutorDto();
-		responseProdutor.setId(idProdutor);
+		responseProdutor.setCpf(cpfProdutor);
 		
 		String json = new ObjectMapper().writeValueAsString(dto);
 
@@ -213,27 +211,26 @@ public class ProdutorControllerTest {
 	@DisplayName("Deve obter informações do produtor.")
 	public void getProdutorDetailTest() throws Exception {
 		//cenário (given)
-		Long id = 1L;
+		String cpfProdutor = "04459471604";
 
 		ProdutorDto dto = this.createNewProdutorDto();
-		dto.setId(id);
-		Persona produtor = this.createNewProdutor();
-		dto.setId(id);
+		dto.setCpf(cpfProdutor);
 		
-		BDDMockito.given(service.getById(id)).willReturn(produtor);
+		Persona produtor = this.createNewProdutor();
+		dto.setCpf(cpfProdutor);
+		
+		BDDMockito.given(service.getByCpf(cpfProdutor)).willReturn(produtor);
 		
 		BDDMockito.given(service.toProdutorDto(Mockito.any(Persona.class))).willReturn(dto);
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-		.get((String.format("%s%s%x",PRODUTOR_API,"/",id)))
+		.get((String.format("%s%s%s",PRODUTOR_API,"/",cpfProdutor)))
 		.accept(MediaType.APPLICATION_JSON);
 		
 		//verificação
 		mvc.perform(request)
 		.andExpect(MockMvcResultMatchers.status().isOk())
-		.andExpect(MockMvcResultMatchers.jsonPath("id").isNotEmpty())
-		.andExpect(MockMvcResultMatchers.jsonPath("nome").value("João Paulo"))
 		.andExpect(MockMvcResultMatchers.jsonPath("cpf").value("04459471604"))
 		.andExpect(MockMvcResultMatchers.jsonPath("fone").value("33999065029"))
 		.andExpect(MockMvcResultMatchers.jsonPath("dataNascimento").value("04/01/1979"))
@@ -248,12 +245,12 @@ public class ProdutorControllerTest {
 		
 		BDDMockito.given(service.getById(Mockito.anyLong())).willThrow(new ProdutorNotFound());
 		
-		Long id = 1L;
+		String cpfProdutor = "04459471604";
 		String errorMessage = "Produtor não registrado no banco de dados.";
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-		.get((String.format("%s%s%x",PRODUTOR_API,"/",id)))
+		.get((String.format("%s%s%s",PRODUTOR_API,"/",cpfProdutor)))
 		.accept(MediaType.APPLICATION_JSON);
 
 		//verificação
@@ -266,16 +263,16 @@ public class ProdutorControllerTest {
 	@DisplayName("Deve deletar um registro de produtor")
 	public void deleteProdutorTest() throws Exception {
 		//cenário (given)
-		Long idProdutor = 1L;
+		String cpfProdutor = "04459471604";
 		
 		Persona produtor = Persona.builder()
-				.id(Long.valueOf(idProdutor))
+				.cpf(cpfProdutor)
 				.build();
 		BDDMockito.given(service.getById(Mockito.anyLong())).willReturn(produtor);
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-				.delete(String.format("%s%s%x",PRODUTOR_API,"/",idProdutor))
+				.delete(String.format("%s%s%s",PRODUTOR_API,"/",cpfProdutor))
 				.accept(MediaType.APPLICATION_JSON);
 
 		//verificação
@@ -288,13 +285,13 @@ public class ProdutorControllerTest {
 	@DisplayName("Deve retornar produtor não registrado ao não encontrar o Produtor para deletar")
 	public void deleteNotFoundProdutorTest() throws Exception {
 		//cenário (given)
-		Long idProdutor = 1L;
+		String cpfProdutor = "04459471604";
 
 		BDDMockito.given(service.getById(Mockito.anyLong())).willThrow(new ProdutorNotFound());
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-				.delete(String.format("%s%s%x",PRODUTOR_API,"/",idProdutor))
+				.delete(String.format("%s%s%s",PRODUTOR_API,"/",cpfProdutor))
 				.accept(MediaType.APPLICATION_JSON);
 		
 		mvc.perform(request)
@@ -315,8 +312,9 @@ public class ProdutorControllerTest {
 		return Persona.builder()
 				.nome("João Paulo")
 				.cpf("04459471604")
-				.fone("33999065029")
-				.dataNascimento(LocalDate.parse("04/01/1979", formatter))
+				.emissor("04459471604")
+				.contato("33999065029")
+				.nascimento(LocalDate.parse("04/01/1979", formatter))
 				.build();
 	}
 }

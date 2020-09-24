@@ -36,10 +36,9 @@ public class ProdutorServiceTest {
 		Persona produtor = createValidProdutor();
 		
 		Persona responseProdutor = Persona.builder()
-				.id(10L)
 				.nome("João Paulo")
 				.cpf("04459471604")
-				.fone("33999065029")
+				.contato("33999065029")
 				.build();
 		
 		Mockito.when(repository.existsByCpf(Mockito.anyString())).thenReturn(false);		
@@ -49,16 +48,15 @@ public class ProdutorServiceTest {
 		Persona savedProdutor = service.save(produtor);
 		
 		//verificação
-		assertThat(savedProdutor.getId()).isNotNull();
 		assertThat(savedProdutor.getNome()).isEqualTo("João Paulo");
 		assertThat(savedProdutor.getCpf()).isEqualTo("04459471604");
-		assertThat(savedProdutor.getFone()).isEqualTo("33999065029");
+		assertThat(savedProdutor.getContato()).isEqualTo("33999065029");
 	}
 	private Persona createValidProdutor() {
 		return Persona.builder()
 				.nome("João Paulo")
 				.cpf("04459471604")
-				.fone("33999065029")
+				.contato("33999065029")
 				.build();
 	}
 	@Test

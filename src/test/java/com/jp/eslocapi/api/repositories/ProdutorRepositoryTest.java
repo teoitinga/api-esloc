@@ -59,7 +59,8 @@ public class ProdutorRepositoryTest {
 		return Persona.builder()
 				.nome("João Paulo")
 				.cpf("04459471604")
-				.fone("33999065029")
+				.emissor("04459471604")
+				.contato("33999065029")
 				.build();
 	}
 }

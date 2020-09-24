@@ -1,12 +1,15 @@
 package com.jp.eslocapi.api.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -26,28 +29,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PERSONA")
-public class Persona {
+@Table(name = "ATENDIMENTO")
+public class Atendimento {
 
 	@Id
-	@Column(name="cpf")
-	@CPF
+	@Column(name="codigo")
 	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
 	@NotEmpty(message = "Não é possível fazer um registro sem informar o cpf")
 	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
-	private String cpf;
+	private String codigo;
 	
-	@Column(name="nome")
-	private String nome;
-
-	@Column(name="email")
-	private String email;
-
-	@Column(name="contato")
-	private String contato;
-	
-	@Column(name="nascimento")
-	private LocalDate nascimento;
+	private String recomendacoes;
 	
 	@Column(name="cadastro")
 	private LocalDate cadastro;
@@ -55,23 +47,15 @@ public class Persona {
 	@Column(name="atualizacao")
 	private LocalDate atualizacao;
 	
-	@Column(name="categoria")
+	@Column(name="data_atendimento")
+	private LocalDate atendimentoData;
+	
+	@Column(name="status_atendimento")
 	@Enumerated(EnumType.STRING)
-	private EnumCategoria categoria;
+	private EnumStatus status;
 	
-	@Column(name="permissao")
-	@Enumerated(EnumType.STRING)
-	private EnumPermissao permissao;
-	
-	@Column(name="password")
-	private LocalDate password;
-	
-	@Column(name="municipio")
-	private String municipio;
-	
-	@Column(name="sexo")
-	@Enumerated(EnumType.STRING)
-	private EnumSexo sexo;
+	@OneToOne
+	private Persona responsavelTecnico;
 	
 	@Column(name="emissor")
 	@CPF
@@ -80,21 +64,24 @@ public class Persona {
 	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
 	private String emissor;
 	
-	@Column(name="escolaridade")
-	private EnumEscolaridade escolaridade;
+	@Column(name="publicar")
+	@Enumerated(EnumType.STRING)
+	private EnumConfirm publico;
 	
-	@Column(name="index_conclusao")
-	private int indexRonclusao;
-	
-	@Column(name="conselho_registro")
-	private String conselhoRegistro;
+	@OneToMany(mappedBy = "servico")
+	private List<ServicosAtd> servicos;
+
+	@OneToMany
+	private List<Persona> produtores;
 	
 	@PrePersist
 	private void setCadastro() {
 		this.cadastro = LocalDate.now();
 	}
+	
 	@PreUpdate
 	private void setAtualizacao() {
 		this.atualizacao = LocalDate.now();
 	}
+	
 }

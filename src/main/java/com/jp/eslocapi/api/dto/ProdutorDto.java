@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProdutorDto {
 
-	private Long id;
-	
 	@NotEmpty(message = "Você deve informar o nome.")
 	private String nome;
 	

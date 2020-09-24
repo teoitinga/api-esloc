@@ -64,15 +64,15 @@ public class ProdutorController {
 		service.delete(toDeleted);
 
 	}
-	@PutMapping("{id}")
+	@PutMapping("{cpf}")
 	@ResponseStatus(HttpStatus.OK)
-	public ProdutorDto updadeProdutor(@PathVariable Long id, @RequestBody @Valid ProdutorDto dto) {
+	public ProdutorDto updadeProdutor(@PathVariable String cpf, @RequestBody @Valid ProdutorDto dto) {
 		
 		ProdutorDto response;
 		
-		Persona toUpdated = service.getById(id);
+		Persona toUpdated = service.getByCpf(cpf);
 		
-		dto.setId(toUpdated.getId());
+		dto.setCpf(toUpdated.getCpf());
 		
 		response = service.update(dto);
 		
