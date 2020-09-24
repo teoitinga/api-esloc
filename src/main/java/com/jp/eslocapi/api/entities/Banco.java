@@ -1,15 +1,13 @@
 package com.jp.eslocapi.api.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -24,30 +22,38 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "RENDA_FAMILIAR_ANUAL")
-public class RendaFamiliarAnual {
+@Table(name = "BANCOS")
+public class Banco {
 	@Id
-	@Column(name="codigo")
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String codigo;
+	@Column(name="prefixo_agencia")
+	private String prefixoAgencia;
+	
+	@Column(name="endereco")
+	private String endereco;
+	
+	@Column(name="municipio")
+	private String municipio;
+	
+	@Column(name="nome_gerente")
+	private String nomeGerente;
+	
+	@Column(name="fone_comercial")
+	private String foneComercial;
+	
+	@Column(name="fone_gerente")
+	private String foneGerente;
+	
+	@Column(name="nome_agencia")
+	private String nomeAgencia;
+	
+	@Column(name="email")
+	private String email;
 	
 	@Column(name="cadastro")
-	private LocalDate cadastro;
+	private LocalDate cadastro;	
 	
 	@Column(name="atualizacao")
 	private LocalDate atualizacao;
-	
-	@ManyToOne
-	private Persona responsavelTecnico;
-
-	@ManyToOne
-	private PropriedadeRural unidadeFamiliar;
-	
-	@ManyToOne
-	private Persona emissor;
-	
-	@OneToMany
-	private List<ProducaoFamiliar> producao;
 	
 	@PrePersist
 	private void setCadastro() {

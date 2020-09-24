@@ -27,9 +27,6 @@ import lombok.NoArgsConstructor;
 public class ServicosAtd {
 	@Id
 	@Column(name="codigo")
-	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotEmpty(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
 	private String codigo;
 	
 	@Column(name="valor_total_servico")

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -55,16 +55,19 @@ public class PropriedadeRural {
 	@Column(name="longitude")
 	private String longitude;
 	
-	@OneToMany
+	@ManyToOne
 	private Persona proprietario;
-		
+	
+	@ManyToOne
+	private Persona emissor;		
+	
 	@Column(name="cadastro")
 	private LocalDate cadastro;
 	
 	@Column(name="atualizacao")
 	private LocalDate atualizacao;	
 	
-	@Column(name="atualizacao")
+	@Column(name="condicao_posse")
 	private EnumPosse condicaoPosse;	
 	
 	@PrePersist
