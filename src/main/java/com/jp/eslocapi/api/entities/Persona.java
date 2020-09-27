@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -41,6 +42,7 @@ public class Persona {
 	private String nome;
 
 	@Column(name="email")
+	@Email
 	private String email;
 
 	@Column(name="contato")
@@ -58,13 +60,6 @@ public class Persona {
 	@Column(name="categoria")
 	@Enumerated(EnumType.STRING)
 	private EnumCategoria categoria;
-	
-	@Column(name="permissao")
-	@Enumerated(EnumType.STRING)
-	private EnumPermissao permissao;
-	
-	@Column(name="password")
-	private LocalDate password;
 	
 	@Column(name="municipio")
 	private String municipio;

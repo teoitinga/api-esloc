@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "PROJETOS")
-public class Projetos {
+public class Projeto {
 	
 	@Id
 	@Column(name="codigo")
