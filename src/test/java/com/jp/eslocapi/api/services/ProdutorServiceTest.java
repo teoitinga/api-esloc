@@ -14,8 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.repositories.ProdutorRepository;
+import com.jp.eslocapi.api.services.impl.ProdutorServiceImpl;
 import com.jp.eslocapi.exceptions.BusinessException;
-import com.jp.eslocapi.services.ProdutorService;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")

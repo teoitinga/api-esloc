@@ -21,8 +21,8 @@ import com.jp.eslocapi.api.dto.ProdutorDto;
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.exceptions.ApiErrors;
 import com.jp.eslocapi.api.exceptions.ProdutorNotFound;
+import com.jp.eslocapi.api.services.ProdutorService;
 import com.jp.eslocapi.exceptions.BusinessException;
-import com.jp.eslocapi.services.ProdutorService;
 
 @RestController
 @RequestMapping("api/v1/produtores")
@@ -45,11 +45,11 @@ public class ProdutorController {
 		
 		return response;
 	}
-	@GetMapping("{id}")
+	@GetMapping("{cpf}")
 	@ResponseStatus(HttpStatus.OK)
-	public ProdutorDto getProdutor(@PathVariable Long id) {
+	public ProdutorDto getProdutor(@PathVariable String cpf) {
 		
-		Persona toSaved = service.getById(id);
+		Persona toSaved = service.getByCpf(cpf);
 		
 		ProdutorDto response = service.toProdutorDto(toSaved);
 		

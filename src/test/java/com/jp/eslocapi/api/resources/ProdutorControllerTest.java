@@ -24,8 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jp.eslocapi.api.dto.ProdutorDto;
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.exceptions.ProdutorNotFound;
+import com.jp.eslocapi.api.repositories.ProdutorRepository;
+import com.jp.eslocapi.api.services.ProdutorService;
 import com.jp.eslocapi.exceptions.BusinessException;
-import com.jp.eslocapi.services.ProdutorService;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -44,6 +45,7 @@ public class ProdutorControllerTest {
 
 	@Autowired
 	private ProdutorService repository;
+	
 	@Test
 	@DisplayName("Deve atualizar um registro de produtor")
 	public void updateProdutorTest() throws Exception {
@@ -243,7 +245,7 @@ public class ProdutorControllerTest {
 	public void produtorNotFound() throws Exception {
 		//cenário (given)
 		
-		BDDMockito.given(service.getById(Mockito.anyLong())).willThrow(new ProdutorNotFound());
+		BDDMockito.given(service.getByCpf(Mockito.anyString())).willThrow(new ProdutorNotFound());
 		
 		String cpfProdutor = "04459471604";
 		String errorMessage = "Produtor não registrado no banco de dados.";
@@ -268,7 +270,7 @@ public class ProdutorControllerTest {
 		Persona produtor = Persona.builder()
 				.cpf(cpfProdutor)
 				.build();
-		BDDMockito.given(service.getById(Mockito.anyLong())).willReturn(produtor);
+		BDDMockito.given(service.getByCpf(Mockito.anyString())).willReturn(produtor);
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
@@ -287,7 +289,7 @@ public class ProdutorControllerTest {
 		//cenário (given)
 		String cpfProdutor = "04459471604";
 
-		BDDMockito.given(service.getById(Mockito.anyLong())).willThrow(new ProdutorNotFound());
+		BDDMockito.given(service.getByCpf(Mockito.anyString())).willThrow(new ProdutorNotFound());
 		
 		//execução (when)
 		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
