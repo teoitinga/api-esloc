@@ -2,16 +2,17 @@ package com.jp.eslocapi.api.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Table;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
+
+import org.locationtech.jts.geom.Geometry;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,51 +24,48 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PROPRIEDADE_RURAL")
 public class PropriedadeRural {
 	@Id
-	@Column(name="ccir")
-	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
+	private String codigo;
+
 	private String ccir;
 	
-	@Column(name="nome")
 	private String nome;
 	
-	@Column(name = "area_total")
+	private EnumLocal caracterizacao;
+	
+	private String localizacao;
+	
 	@Digits(integer=6, fraction=2)
 	private BigDecimal areaTotal;
 	
-	@Column(name="recibo_car")
-	private String reciboCAR;
+	private String reciboCar;
 	
-	@Column(name="nirf")
 	private String nirf;
 
-	@Column(name="matricula")
 	private String matricula;
 	
-	@Column(name="roteiro_de_acesso")
 	private String roteiro;
 	
-	@Column(name="latitude")
+	private Geometry perimetro;
+	
 	private String latitude;
 	
-	@Column(name="longitude")
 	private String longitude;
 	
 	@ManyToOne
 	private Persona proprietario;
+
+	@OneToMany
+	private List<Persona> membrosFamiliares;
 	
 	@ManyToOne
-	private Persona emissor;		
+	private Tecnico emissor;		
 	
-	@Column(name="cadastro")
 	private LocalDate cadastro;
 	
-	@Column(name="atualizacao")
 	private LocalDate atualizacao;	
 	
-	@Column(name="condicao_posse")
 	private EnumPosse condicaoPosse;	
 	
 	@PrePersist

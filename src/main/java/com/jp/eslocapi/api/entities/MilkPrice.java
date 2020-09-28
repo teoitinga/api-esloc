@@ -1,10 +1,15 @@
 package com.jp.eslocapi.api.entities;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.validation.constraints.Digits;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +21,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Producao {
+public class MilkPrice {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String codigo;
 	
-	private String descricao;
-	
-	private String unidade;
+	@ManyToOne
+	private Tecnico emissor;
 	
 	@ManyToOne
-	private GrupoProducao grupo;
+	private PropriedadeRural propriedadeInfo;
+	
+	@Digits(integer=6, fraction=2)
+	private BigDecimal valor;
+	
+	private LocalDate cadastro;
+	
+	@PrePersist
+	private void setCadastro() {
+		this.cadastro = LocalDate.now();
+	}
 }

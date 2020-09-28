@@ -3,7 +3,6 @@ package com.jp.eslocapi.api.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,27 +22,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "RENDA_FAMILIAR_ANUAL")
 public class RendaFamiliarAnual {
 	@Id
-	@Column(name="codigo")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String codigo;
 	
-	@Column(name="cadastro")
 	private LocalDate cadastro;
 	
-	@Column(name="atualizacao")
 	private LocalDate atualizacao;
 	
 	@ManyToOne
-	private Persona responsavelTecnico;
+	private Tecnico responsavelTecnico;
 
 	@ManyToOne
 	private PropriedadeRural unidadeFamiliar;
 	
 	@ManyToOne
-	private Persona emissor;
+	private Persona segundoTitular;	
+	
+	@ManyToOne
+	private Tecnico emissor;
 	
 	@OneToMany
 	private List<ProducaoFamiliar> producao;

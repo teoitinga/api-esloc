@@ -7,17 +7,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.br.CPF;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,11 +28,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "ATENDIMENTO")
 public class Atendimento {
 
 	@Id
-	@Column(name="codigo")
 	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
 	@NotEmpty(message = "Não é possível fazer um registro sem informar o cpf")
 	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
@@ -41,30 +38,24 @@ public class Atendimento {
 	
 	private String recomendacoes;
 	
-	@Column(name="cadastro")
 	private LocalDate cadastro;
 	
-	@Column(name="atualizacao")
 	private LocalDate atualizacao;
 	
-	@Column(name="data_atendimento")
 	private LocalDate atendimentoData;
 	
-	@Column(name="status_atendimento")
 	@Enumerated(EnumType.STRING)
 	private EnumStatus status;
 	
-	@OneToOne
-	private Persona responsavelTecnico;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Tecnico responsavelTecnico;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private PropriedadeRural propriedadeRural;
 	
-	@Column(name="emissor")
-	@CPF
-	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotEmpty(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
-	private String emissor;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Tecnico emissor;
 	
-	@Column(name="publicar")
 	@Enumerated(EnumType.STRING)
 	private EnumConfirm publico;
 	

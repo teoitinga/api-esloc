@@ -1,15 +1,14 @@
 package com.jp.eslocapi.api.entities;
 
 import java.math.BigDecimal;
-import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
 
 import lombok.AllArgsConstructor;
@@ -22,31 +21,41 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PRODUCAO_FAMILIAR")
 public class ProducaoFamiliar {
 	
 	@Id
-	@Column(name="codigo")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String codigo;
 	
-	@Column(name="quantidade_por_unidade")
 	@Digits(integer=6, fraction=2)
 	private BigDecimal qtd;
 
-	@Column(name="valor_por_unidade")
 	@Digits(integer=6, fraction=2)
 	private BigDecimal valorPorUnidade;
 	
-	@Column(name="renda_auferida")
 	@Digits(integer=6, fraction=2)
 	private BigDecimal rendaAuferida;
 
-	@Column(name="renda_estimada")
 	@Digits(integer=6, fraction=2)
 	private BigDecimal rendaEstimada;
 	
-	@OneToMany
-	private List<Producao> producoes;
+	@Enumerated(EnumType.STRING)
+	private EnumProgramacComercializacao programa;
+
+	@Enumerated(EnumType.STRING)
+	private EnumProgramaSocial programaSocial;
+	
+	@Enumerated(EnumType.STRING)
+	private EnumBeneficioSocial beneficio;
+
+	@Enumerated(EnumType.STRING)
+	private EnumOutrasRendas outrasRendas;
+	
+	@ManyToOne
+	private Persona comprador;
+	
+	
+	@ManyToOne
+	private Producao producAO;
 	
 }
