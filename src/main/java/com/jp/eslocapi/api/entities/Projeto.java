@@ -2,6 +2,7 @@ package com.jp.eslocapi.api.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,9 +29,9 @@ public class Projeto {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String codigo;
 	
-	private LocalDate cadastro;
+	private LocalDateTime cadastro;
 	
-	private LocalDate atualizacao;
+	private LocalDateTime atualizacao;
 	
 	private LocalDate dataPagamento;
 
@@ -70,11 +71,11 @@ public class Projeto {
 	
 	@PrePersist
 	private void setCadastro() {
-		this.cadastro = LocalDate.now();
+		this.cadastro = LocalDateTime.now();
 	}
 	
 	@PreUpdate
 	private void setAtualizacao() {
-		this.atualizacao = LocalDate.now();
+		this.atualizacao = LocalDateTime.now();
 	}
 }

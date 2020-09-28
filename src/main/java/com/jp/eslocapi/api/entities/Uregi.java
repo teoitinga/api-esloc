@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 public class Uregi {
+	
 	@Id
 	private String cpi;
 	

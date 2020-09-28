@@ -1,7 +1,5 @@
 package com.jp.eslocapi.api.entities;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -34,7 +32,7 @@ public class Tecnico {
 	private String matricula;
 
 	private String registro;
-	
+
 	private String conselho;
 	
 	@OneToOne

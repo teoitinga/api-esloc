@@ -1,7 +1,7 @@
 package com.jp.eslocapi.api.entities;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -62,18 +62,18 @@ public class PropriedadeRural {
 	@ManyToOne
 	private Tecnico emissor;		
 	
-	private LocalDate cadastro;
+	private LocalDateTime cadastro;
 	
-	private LocalDate atualizacao;	
+	private LocalDateTime atualizacao;	
 	
 	private EnumPosse condicaoPosse;	
 	
 	@PrePersist
 	private void setCadastro() {
-		this.cadastro = LocalDate.now();
+		this.cadastro = LocalDateTime.now();
 	}
 	@PreUpdate
 	private void setAtualizacao() {
-		this.atualizacao = LocalDate.now();
+		this.atualizacao = LocalDateTime.now();
 	}
 }

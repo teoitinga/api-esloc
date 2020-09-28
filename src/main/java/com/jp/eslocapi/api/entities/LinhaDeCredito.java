@@ -1,7 +1,7 @@
 package com.jp.eslocapi.api.entities;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,18 +43,18 @@ public class LinhaDeCredito {
 	@Column(name="carenciaMaxima")
 	private int carenciaMaxima;
 	@Column(name="cadastro")
-	private LocalDate cadastro;	
+	private LocalDateTime cadastro;	
 	
 	@Column(name="atualizacao")
-	private LocalDate atualizacao;
+	private LocalDateTime atualizacao;
 	
 	@PrePersist
 	private void setCadastro() {
-		this.cadastro = LocalDate.now();
+		this.cadastro = LocalDateTime.now();
 	}
 	
 	@PreUpdate
 	private void setAtualizacao() {
-		this.atualizacao = LocalDate.now();
+		this.atualizacao = LocalDateTime.now();
 	}	
 }

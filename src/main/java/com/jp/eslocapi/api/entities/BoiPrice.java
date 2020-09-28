@@ -1,7 +1,7 @@
 package com.jp.eslocapi.api.entities;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -41,10 +41,10 @@ public class BoiPrice {
 	private EnumCategoriaAnimal categoriaAnimal;
 	
 
-	private LocalDate cadastro;
+	private LocalDateTime cadastro;
 	
 	@PrePersist
 	private void setCadastro() {
-		this.cadastro = LocalDate.now();
+		this.cadastro = LocalDateTime.now();
 	}
 }

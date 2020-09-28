@@ -1,6 +1,7 @@
 package com.jp.eslocapi.api.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,9 +39,9 @@ public class Atendimento {
 	
 	private String recomendacoes;
 	
-	private LocalDate cadastro;
+	private LocalDateTime cadastro;
 	
-	private LocalDate atualizacao;
+	private LocalDateTime atualizacao;
 	
 	private LocalDate atendimentoData;
 	
@@ -67,12 +68,11 @@ public class Atendimento {
 	
 	@PrePersist
 	private void setCadastro() {
-		this.cadastro = LocalDate.now();
+		this.cadastro = LocalDateTime.now();
 	}
-	
 	@PreUpdate
 	private void setAtualizacao() {
-		this.atualizacao = LocalDate.now();
+		this.atualizacao = LocalDateTime.now();
 	}
 	
 }

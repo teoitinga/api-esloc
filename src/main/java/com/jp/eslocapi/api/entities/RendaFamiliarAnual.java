@@ -1,6 +1,6 @@
 package com.jp.eslocapi.api.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -27,9 +27,9 @@ public class RendaFamiliarAnual {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String codigo;
 	
-	private LocalDate cadastro;
+	private LocalDateTime cadastro;
 	
-	private LocalDate atualizacao;
+	private LocalDateTime atualizacao;
 	
 	@ManyToOne
 	private Tecnico responsavelTecnico;
@@ -48,11 +48,11 @@ public class RendaFamiliarAnual {
 	
 	@PrePersist
 	private void setCadastro() {
-		this.cadastro = LocalDate.now();
+		this.cadastro = LocalDateTime.now();
 	}
 	
 	@PreUpdate
 	private void setAtualizacao() {
-		this.atualizacao = LocalDate.now();
+		this.atualizacao = LocalDateTime.now();
 	}
 }
