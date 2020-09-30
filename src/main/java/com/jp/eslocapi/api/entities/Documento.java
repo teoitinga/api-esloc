@@ -1,16 +1,11 @@
 package com.jp.eslocapi.api.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
@@ -24,39 +19,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Atendimento {
+public class Documento {
 
 	@Id
 	private String codigo;
 	
-	private String recomendacoes;
+	private String descricao;
 	
 	private LocalDateTime cadastro;
 	
 	private LocalDateTime atualizacao;
 	
-	private LocalDate atendimentoData;
-	
-	@Enumerated(EnumType.STRING)
-	private EnumStatus status;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Tecnico responsavelTecnico;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	private PropriedadeRural propriedadeRural;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private Tecnico emissor;
 	
-	@Enumerated(EnumType.STRING)
-	private EnumConfirm publico;
-	
-	@OneToMany(mappedBy = "servico")
-	private List<ServicosAtd> servicos;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Atendimento atendimento;
 
-	@OneToMany
-	private List<Persona> produtores;
+	@ManyToOne
+	private DocumentoType documento;
 	
 	@PrePersist
 	private void setCadastro() {
@@ -66,5 +47,4 @@ public class Atendimento {
 	private void setAtualizacao() {
 		this.atualizacao = LocalDateTime.now();
 	}
-	
 }

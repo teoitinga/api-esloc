@@ -32,5 +32,5 @@ public class ProgramaMunicipal {
 	private String parceiros;
 	
 	@OneToMany
-	private List<Persona> pessoasAtendidas;
+	private List<ItemAtendimento> itemAtendimento;
 }
