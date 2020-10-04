@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jp.eslocapi.api.entities.Persona;
 
-public interface ProdutorRepository extends JpaRepository<Persona, Long> {
+public interface PersonaRepository extends JpaRepository<Persona, String> {
+
+	Optional<Persona> findByCpf(String cpf);
 
 	boolean existsByCpf(String cpf);
-
-	Optional<Persona> findByCpf(String cpfProdutor);
 
 }

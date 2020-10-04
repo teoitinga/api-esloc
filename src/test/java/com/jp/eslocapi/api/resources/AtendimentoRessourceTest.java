@@ -1,10 +1,13 @@
 package com.jp.eslocapi.api.resources;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,12 +25,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jp.eslocapi.api.dto.AtendimentoDtoPost;
 import com.jp.eslocapi.api.dto.ProdutorMinDto;
 import com.jp.eslocapi.api.dto.ServicosDtoPost;
-import com.jp.eslocapi.api.entities.Atendimento;
 import com.jp.eslocapi.api.entities.EnumLocal;
 import com.jp.eslocapi.api.entities.EnumPermissao;
 import com.jp.eslocapi.api.entities.GrupoServico;
@@ -37,6 +38,7 @@ import com.jp.eslocapi.api.entities.Servico;
 import com.jp.eslocapi.api.entities.ServicosAtd;
 import com.jp.eslocapi.api.entities.Tecnico;
 import com.jp.eslocapi.api.services.AtendimentoService;
+import com.jp.eslocapi.exceptions.BusinessException;
 
 
 @ExtendWith(SpringExtension.class)
@@ -58,16 +60,6 @@ public class AtendimentoRessourceTest {
 	@DisplayName("Deve registrar um atendimento com sucesso")
 	public void createAtendimentoTest() throws Exception {
 		//cenário (given)
-//		ProdutorMinDto produtorDto;
-//		produtorDto = createNewProdutorMinDto();
-//		
-//		Tecnico tecnico = createNewTecnico();
-//		
-//		PropriedadeRural propriedadeRural = createNewPropriedadeRural();
-//		
-//		Tecnico emissor = this.createNewTecnico();
-//		
-//		ServicosAtd atd = createNewServicosAtd();
 		
 		AtendimentoDtoPost dto = generateValidAtendimento();
 		
@@ -96,7 +88,86 @@ public class AtendimentoRessourceTest {
 		
 					
 	}
+	@Test
+	@DisplayName("Deve lançar erro se não haver produtores")
+	public void createInvalidAtendimentoNoProductorsTest() throws Exception {
+		//cenário (given)
+		
+		AtendimentoDtoPost dto = generateInValidAtendimentNoProdutctors();
+		
+		String json = new ObjectMapper().writeValueAsString(dto);
 
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(API)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(json);
+		
+		mvc.perform(request)
+		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+		.andExpect(jsonPath("errors", Matchers.hasSize(1)))
+
+		;
+		
+		
+	}
+	@Test
+	@DisplayName("Deve lançar erro se não houver serviços")
+	public void createInvalidAtendimentoNoServicesTest() throws Exception {
+		//cenário (given)
+		
+		AtendimentoDtoPost dto = generateInValidAtendimentNoServices();
+		
+		String json = new ObjectMapper().writeValueAsString(dto);
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(API)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(json);
+		
+		mvc.perform(request)
+		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+		.andExpect(jsonPath("errors", Matchers.hasSize(1)))
+		
+		;
+		
+		
+	}
+	@Test
+	@DisplayName("Deve lançar erro e retornar a lista de produrores com cpf's inválidos")
+	public void createInvalidAtendimentoByInvalidCpfTest() throws Exception {
+		//cenário (given)
+		
+		AtendimentoDtoPost dto = generateInValidAtendimentNoServices();
+		
+		String json = new ObjectMapper().writeValueAsString(dto);
+		
+		BDDMockito.given(service.save(Mockito.any(AtendimentoDtoPost.class))).willThrow(new BusinessException("João Paulo Santana Gusmão, Sirlene Ferreira Peron"));
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(API)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(json);
+		
+		mvc.perform(request)
+		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+		.andExpect(jsonPath("errors", Matchers.hasSize(1)))
+		
+		;		
+	}
+
+	private AtendimentoDtoPost generateInValidAtendimentNoServices() {
+		
+		AtendimentoDtoPost atendimento = this.generateValidAtendimento();
+		atendimento.setServicos(null);
+		
+		return atendimento;
+	}
+	private AtendimentoDtoPost generateInValidAtendimentNoProdutctors() {
+		AtendimentoDtoPost atendimento = this.generateValidAtendimento();
+		atendimento.setProdutores(null);
+		
+		return atendimento;
+	}
 	private AtendimentoDtoPost generateValidAtendimento() {
 		
 		List<ServicosDtoPost> servicos = new ArrayList<>();

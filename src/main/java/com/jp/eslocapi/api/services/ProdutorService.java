@@ -7,8 +7,6 @@ public interface ProdutorService {
 
 	Persona save(Persona produtor);
 
-	Persona getById(Long id);
-
 	void delete(Persona toDeleted);
 
 	ProdutorDto update(ProdutorDto dto);

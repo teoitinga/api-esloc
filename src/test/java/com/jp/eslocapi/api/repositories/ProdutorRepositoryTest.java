@@ -2,6 +2,7 @@ package com.jp.eslocapi.api.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,18 +12,25 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.jp.eslocapi.api.entities.EnumCategoria;
 import com.jp.eslocapi.api.entities.Persona;
+import com.jp.eslocapi.api.entities.Tecnico;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @DataJpaTest
 public class ProdutorRepositoryTest {
+
 	@Autowired
 	TestEntityManager entityManager;
 	
 	@Autowired
-	ProdutorRepository repository;
+	PersonaRepository repository;
 	
+	@BeforeEach
+	public void setUp() {
+
+	}
 	@Test
 	@DisplayName("Deve retornar verdadeiro quando existir um produtor na base de dados com o cpf informado")
 	public void returnTrueWhenCpfExists() {
@@ -56,11 +64,20 @@ public class ProdutorRepositoryTest {
 		
 	}
 	private Persona createValidProdutor() {
+		Tecnico emissor = Tecnico.builder()
+				.matricula("10639")
+				.registro("04459471604")
+				.conselho("CFTA")
+				.agente(Persona.builder().cpf("04459471604").build())
+				.build();
+		
 		return Persona.builder()
+				.cpf("04459471604")
 				.nome("João Paulo")
 				.cpf("04459471604")
-				.emissor("04459471604")
+				.cpfEmissor(emissor.getAgente().getCpf())
 				.contato("33999065029")
+				.categoria(EnumCategoria.AGRICULTOR_FAMILIAR)
 				.build();
 	}
 }

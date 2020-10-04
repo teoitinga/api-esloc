@@ -9,10 +9,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +32,7 @@ public class Atendimento {
 	@Id
 	private String codigo;
 	
+	@NotEmpty
 	private String recomendacoes;
 	
 	private LocalDateTime cadastro;
@@ -40,22 +44,22 @@ public class Atendimento {
 	@Enumerated(EnumType.STRING)
 	private EnumStatus status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Tecnico responsavelTecnico;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PropriedadeRural propriedadeRural;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Tecnico emissor;
 	
 	@Enumerated(EnumType.STRING)
 	private EnumConfirm publico;
 	
-	@OneToMany(mappedBy = "servico")
+	@OneToMany(mappedBy = "servico", orphanRemoval = true)
 	private List<ServicosAtd> servicos;
 
-	@OneToMany
+	@ManyToMany
 	private List<Persona> produtores;
 	
 	@PrePersist

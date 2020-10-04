@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.jp.eslocapi.api.dto.ProdutorDto;
 import com.jp.eslocapi.api.entities.Persona;
-import com.jp.eslocapi.api.exceptions.ProdutorNotFound;
-import com.jp.eslocapi.api.repositories.ProdutorRepository;
+import com.jp.eslocapi.api.exceptions.ProdutorNotFoundException;
+import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.ProdutorService;
 import com.jp.eslocapi.exceptions.BusinessException;
 
 @Service
 public class ProdutorServiceImpl implements ProdutorService {
 
-	private ProdutorRepository repository;
+	private PersonaRepository repository;
 
-	public ProdutorServiceImpl(ProdutorRepository repository) {
+	public ProdutorServiceImpl(PersonaRepository repository) {
 		this.repository = repository;
 	}
 
@@ -30,8 +30,8 @@ public class ProdutorServiceImpl implements ProdutorService {
 	}
 
 	@Override
-	public Persona getById(Long id) {
-		return repository.findById(id).orElseThrow(()-> new ProdutorNotFound());
+	public Persona getByCpf(String cpf) {
+		return repository.findByCpf(cpf).orElseThrow(()-> new ProdutorNotFoundException());
 	}
 
 	@Override
@@ -78,11 +78,5 @@ public class ProdutorServiceImpl implements ProdutorService {
 				.dataNascimento(String.valueOf(toSaved.getNascimento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))))
 				.build();
 	}
-
-	@Override
-	public Persona getByCpf(String cpfProdutor) {
-		return repository.findByCpf(cpfProdutor).orElseThrow(()-> new ProdutorNotFound());
-	}
-
 
 }

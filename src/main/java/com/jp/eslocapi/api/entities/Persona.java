@@ -9,11 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -27,16 +24,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "PERSONA")
 public class Persona {
 
 	@Id
 	@CPF
-	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
 	@NotEmpty(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
 	private String cpf;
 	
+	@NotEmpty
 	private String nome;
 
 	@Email
@@ -44,7 +39,11 @@ public class Persona {
 
 	private String contato;
 	
+	private String enderecoResidencial;
+	
 	private LocalDate nascimento;
+	
+	private String cpfEmissor;
 	
 	private LocalDateTime cadastro;
 	
@@ -58,17 +57,9 @@ public class Persona {
 	@Enumerated(EnumType.STRING)
 	private EnumSexo sexo;
 	
-	@CPF
-	@NotNull(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotEmpty(message = "Não é possível fazer um registro sem informar o cpf")
-	@NotBlank(message = "Não é possível fazer um registro sem informar o cpf")
-	private String emissor;
-	
 	private EnumEscolaridade escolaridade;
 	
-	private int indexRonclusao;
-	
-	private String conselhoRegistro;
+	private int indexConclusao;
 	
 	@PrePersist
 	private void setCadastro() {

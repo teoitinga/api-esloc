@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.jp.eslocapi.api.entities.Persona;
-import com.jp.eslocapi.api.repositories.ProdutorRepository;
+import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.impl.ProdutorServiceImpl;
 import com.jp.eslocapi.exceptions.BusinessException;
 
@@ -23,7 +23,7 @@ public class ProdutorServiceTest {
 	ProdutorService service;
 	
 	@MockBean
-	private ProdutorRepository repository;
+	private PersonaRepository repository;
 	
 	@BeforeEach
 	public void setUp() {

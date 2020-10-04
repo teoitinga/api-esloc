@@ -20,7 +20,7 @@ public class ApiErrors {
 		this.errors = Arrays.asList(ex.getMessage());
 	}
 
-	public ApiErrors(ProdutorNotFound ex) {
+	public ApiErrors(ProdutorNotFoundException ex) {
 		this.errors = Arrays.asList(ex.getMessage());
 	}
 

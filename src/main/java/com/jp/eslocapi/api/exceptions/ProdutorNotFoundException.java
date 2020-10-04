@@ -1,10 +1,10 @@
 package com.jp.eslocapi.api.exceptions;
 
-public class ProdutorNotFound extends RuntimeException {
+public class ProdutorNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 342296956066915407L;
 
-	public ProdutorNotFound() {
+	public ProdutorNotFoundException() {
 		super("Produtor não registrado no banco de dados.");
 	}
 
