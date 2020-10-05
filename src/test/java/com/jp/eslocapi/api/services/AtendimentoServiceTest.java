@@ -21,6 +21,7 @@ import com.jp.eslocapi.api.entities.PropriedadeRural;
 import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.impl.AtendimentoServiceImpl;
+import com.jp.eslocapi.core.Gerenciador;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -37,7 +38,7 @@ public class AtendimentoServiceTest {
 
 	@MockBean
 	PersonaService personaService;
-
+	
 	@BeforeEach
 	public void setUp() {
 		this.service = new AtendimentoServiceImpl(repository, personaService, personaRepository );
@@ -79,6 +80,7 @@ public class AtendimentoServiceTest {
 		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(1).getNome()).isEqualTo("Rafael Roberto Joaquim das Neves");
 
 	}
+
 	@Test
 	@DisplayName("Deve se retornar um Array com os produtores cujo CPF's estão registrados no banco de dados")
 	public void getExistentProductorsTest() {

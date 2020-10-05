@@ -16,6 +16,7 @@ import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.AtendimentoService;
 import com.jp.eslocapi.api.services.PersonaService;
+import com.jp.eslocapi.core.Gerenciador;
 
 @Service
 public class AtendimentoServiceImpl implements AtendimentoService {
@@ -23,15 +24,17 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 	private AtendimentoRepository repository;
 	
 	private PersonaService personaService;
-
+	
 	public AtendimentoServiceImpl(
 			AtendimentoRepository repository,
 			PersonaService personaService, 
-			PersonaRepository personaRepository) {
+			PersonaRepository personaRepository
+			) {
 
 		this.repository = repository;
 		
 		this.personaService = new PersonaServiceImpl(personaRepository);
+		
 	}
 
 	@Override
@@ -213,6 +216,11 @@ public class AtendimentoServiceImpl implements AtendimentoService {
                 } catch (InputMismatchException erro) {
                 return(false);
             }
+	}
+
+	@Override
+	public String geraIdentificador(String cpf) {
+		return Gerenciador.GERA_IDENTIFICADOR(cpf);
 	}
 
 

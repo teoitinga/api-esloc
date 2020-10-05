@@ -24,4 +24,6 @@ public interface AtendimentoService {
 
 	boolean isRegistered(String cpf);
 
+	String geraIdentificador(String cpf);
+
 }
