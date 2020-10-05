@@ -1,6 +1,7 @@
 package com.jp.eslocapi.api.services;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +18,13 @@ import com.jp.eslocapi.api.dto.AtendimentoDtoPost;
 import com.jp.eslocapi.api.dto.ProdutorMinDto;
 import com.jp.eslocapi.api.dto.ServicosDtoPost;
 import com.jp.eslocapi.api.entities.Atendimento;
+import com.jp.eslocapi.api.entities.EnumStatus;
+import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.entities.PropriedadeRural;
+import com.jp.eslocapi.api.entities.Tecnico;
 import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.impl.AtendimentoServiceImpl;
-import com.jp.eslocapi.core.Gerenciador;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -37,11 +40,18 @@ public class AtendimentoServiceTest {
 	PersonaRepository personaRepository;
 
 	@MockBean
-	PersonaService personaService;
+	PropriedadeRuralService propriedadeRuralService;
 	
+	@MockBean
+	PropriedadeRuralRepository propriedadeRuralRepository;
+	
+	@MockBean
+	PersonaService personaService;
+
 	@BeforeEach
 	public void setUp() {
-		this.service = new AtendimentoServiceImpl(repository, personaService, personaRepository );
+		this.service = new AtendimentoServiceImpl(repository, personaService, personaRepository,
+				propriedadeRuralService, propriedadeRuralRepository);
 	}
 
 	@Test
@@ -52,16 +62,20 @@ public class AtendimentoServiceTest {
 		Atendimento atdSave = generateValidAtendimento();
 
 		// execução
-		AtendimentoDtoPost savedAtendimento = this.service.save(post);
+		this.service.save(post);
+		
+		AtendimentoDtoPost savedAtendimento = this.generateAtendimentoDtoPost();
 		Atendimento atdSaved = createdAtendimento();
 
 		Mockito.when(service.toAtendimento(post)).thenReturn(atdSave);
 		Mockito.when(repository.save(atdSave)).thenReturn(atdSaved);
+//		Mockito.when(service.toAtendimentoPost(atdSave)).thenReturn(savedAtendimento);
 
 		// verificação
-		org.assertj.core.api.Assertions.assertThat(atdSaved.getCodigo()).isNotNull();
-		org.assertj.core.api.Assertions.assertThat(atdSaved.getRecomendacoes()).isEqualTo(post.getRecomendacoes());
-		org.assertj.core.api.Assertions.assertThat(atdSaved.getPropriedadeRural().getNome()).isEqualTo(post.getLocal());
+		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getCodigo()).isNotNull();
+		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getRecomendacoes())
+				.isEqualTo(post.getRecomendacoes());
+		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getLocal()).isEqualTo(post.getLocal());
 
 	}
 
@@ -76,8 +90,10 @@ public class AtendimentoServiceTest {
 
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.size()).isEqualTo(2);
-		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(0).getNome()).isEqualTo("Josenildo Ferreira");
-		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(1).getNome()).isEqualTo("Rafael Roberto Joaquim das Neves");
+		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(0).getNome())
+				.isEqualTo("Josenildo Ferreira");
+		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(1).getNome())
+				.isEqualTo("Rafael Roberto Joaquim das Neves");
 
 	}
 
@@ -86,41 +102,45 @@ public class AtendimentoServiceTest {
 	public void getExistentProductorsTest() {
 		// cenário
 		List<ProdutorMinDto> produtores = createListProdutoresMinDto();
-		
+
 		// execução
 		List<ProdutorMinDto> produtoresNaoCadastrados = service.getExistentProductors(produtores);
-		
+
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.size()).isEqualTo(0);
-		
+
 	}
+
 	@Test
 	@DisplayName("Deve se retornar um Array com os produtores cujo CPF's ainda não estão registrados no banco de dados")
 	public void getNotExistentProductorsTest() {
 		// cenário
 		List<ProdutorMinDto> produtores = createListProdutoresMinDto();
-		
+
 		// execução
 		List<ProdutorMinDto> produtoresNaoCadastrados = service.getNotExistentProductors(produtores);
-		
+
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.size()).isEqualTo(11);
-		
+
 	}
+
 	@Test
 	@DisplayName("Deve se retorna um Array com or produtores cujo CPF's são inválidos")
 	public void getCpfsTest() {
 		// cenário
 		List<ProdutorMinDto> produtores = createListProdutoresMinDto();
-		
+
 		// execução
 		List<ProdutorMinDto> produtoresNaoCadastrados = service.getValidCpfs(produtores);
-		
+
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.size()).isEqualTo(9);
-		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(0).getNome()).isEqualTo("Larissa Nair Almada");
-		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(8).getNome()).isEqualTo("Augusto Rodrigo Fernandes");
-		
+		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(0).getNome())
+				.isEqualTo("Larissa Nair Almada");
+		org.assertj.core.api.Assertions.assertThat(produtoresNaoCadastrados.get(8).getNome())
+				.isEqualTo("Augusto Rodrigo Fernandes");
+
 	}
 
 	@Test
@@ -135,7 +155,7 @@ public class AtendimentoServiceTest {
 
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(isRegistered).isNotNull();
-		org.assertj.core.api.Assertions.assertThat(isRegistered).isFalse();		
+		org.assertj.core.api.Assertions.assertThat(isRegistered).isFalse();
 	}
 
 	private List<ProdutorMinDto> createListProdutoresMinDto() {
@@ -224,16 +244,56 @@ public class AtendimentoServiceTest {
 	}
 
 	private Atendimento createdAtendimento() {
-		PropriedadeRural propriedadeRural = PropriedadeRural.builder().codigo("20201010084004459471604")
-				.nome("Faz. Saudade II").build();
-
-		return Atendimento.builder().codigo("2020100404459471604")
-				.recomendacoes("realizar análise de solos na área pretendida.").propriedadeRural(propriedadeRural)
-				.build();
+		return generateValidAtendimento();
 	}
 
 	private Atendimento generateValidAtendimento() {
-		return Atendimento.builder().build();
+		
+		LocalDate atendimentoData = LocalDate.now();
+		
+		List<ServicosDtoPost> servicos = new ArrayList<>();
+
+		List<ProdutorMinDto> produtores = new ArrayList<>();
+
+		ProdutorMinDto produtor_01 = ProdutorMinDto.builder().cpf("79710004050").nome("José Maria de Troia").build();
+
+		ProdutorMinDto produtor_02 = ProdutorMinDto.builder().cpf("42229837052").nome("Maria Filomensa de Heráclito")
+				.build();
+
+		produtores.add(produtor_01);
+		produtores.add(produtor_02);
+
+		ServicosDtoPost servico_01 = ServicosDtoPost.builder().descricao("Emissão de cadastro ambiental rural")
+				.valorDoServico(new BigDecimal(0)).valorCobrado(new BigDecimal(200.00))
+				.observacoes("Ficou de pagar depois").codServico("CAREM").build();
+
+		servicos.add(servico_01);
+		Persona agente = Persona.builder()
+				.cpf("04459471604")
+				.nome("João Paulo santana Gusmão")
+				.build();
+		
+		Tecnico responsavelTecnico = Tecnico.builder()
+				.agente(agente )
+				.conselho("CFTA")
+				.registro("04459471604")
+				.build();
+		PropriedadeRural propriedadeRural = PropriedadeRural.builder()
+				.areaTotal(new BigDecimal(54.46))
+				.emissor(responsavelTecnico)
+				.nome("Faz. Saudade II")
+				.proprietario(agente)
+				.build();
+		return Atendimento.builder()
+				.codigo("20200930")
+				.recomendacoes("realizar análise de solos na área pretendida.")
+				.atendimentoData(atendimentoData)
+				.responsavelTecnico(responsavelTecnico )
+				.emissor(responsavelTecnico)
+				.propriedadeRural(propriedadeRural )
+				.status(EnumStatus.INICIADA)
+
+				.build();
 	}
 
 	private AtendimentoDtoPost generateAtendimentoDtoPost() {
@@ -256,10 +316,17 @@ public class AtendimentoServiceTest {
 
 		servicos.add(servico_01);
 
-		AtendimentoDtoPost atendimento = AtendimentoDtoPost.builder().codigo("20200930")
-				.recomendacoes("realizar análise de solos na área pretendida.").dataAtd("30/09/2020")
-				.tecnico("João Paulo Santana Gusmão").emissor("Sirlene Ferreira Peron").local("Faz. Saudade II")
-				.servicos(servicos).produtores(produtores).statusAtd("INICIADA").build();
+		AtendimentoDtoPost atendimento = AtendimentoDtoPost.builder()
+				.codigo("20200930")
+				.recomendacoes("realizar análise de solos na área pretendida.")
+				.dataAtd("30/09/2020")
+				.tecnico("João Paulo Santana Gusmão")
+				.emissor("Sirlene Ferreira Peron")
+				.local("Faz. Saudade II")
+				.servicos(servicos)
+				.produtores(produtores)
+				.statusAtd("INICIADA")
+				.build();
 		return atendimento;
 	}
 

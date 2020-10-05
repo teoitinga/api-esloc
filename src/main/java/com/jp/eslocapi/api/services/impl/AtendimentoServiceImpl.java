@@ -16,6 +16,8 @@ import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.AtendimentoService;
 import com.jp.eslocapi.api.services.PersonaService;
+import com.jp.eslocapi.api.services.PropriedadeRuralRepository;
+import com.jp.eslocapi.api.services.PropriedadeRuralService;
 import com.jp.eslocapi.core.Gerenciador;
 
 @Service
@@ -25,15 +27,25 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 	
 	private PersonaService personaService;
 	
+	private PropriedadeRuralService propriedadeRuralService;
+	
+	private PropriedadeRuralRepository propriedadeRuralRepository;
+	
 	public AtendimentoServiceImpl(
 			AtendimentoRepository repository,
 			PersonaService personaService, 
-			PersonaRepository personaRepository
+			PersonaRepository personaRepository,
+			PropriedadeRuralService propriedadeRuralService,
+			PropriedadeRuralRepository propriedadeRuralRepository
 			) {
 
 		this.repository = repository;
 		
 		this.personaService = new PersonaServiceImpl(personaRepository);
+		
+		this.propriedadeRuralService = new PropriedadeRuralServiceImpl(
+												propriedadeRuralRepository,
+												this.personaService);
 		
 	}
 
@@ -87,7 +99,7 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 		
 		
 		//obtem o código do atendimento
-		
+		atendimento.setCodigo("202010051558000459471604");
 		//registra no banco de dados
 		return toAtendimentoPost(repository.save(atendimento));
 	}
@@ -131,6 +143,8 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 	public Atendimento toAtendimento(AtendimentoDtoPost atd) {
 		return Atendimento.builder().build();
 	}
+	
+	@Override
 	public AtendimentoDtoPost toAtendimentoPost(Atendimento atd) {
 		return AtendimentoDtoPost.builder()
 				.build();

@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import com.jp.eslocapi.api.dto.PropriedadeRuralMinDtoPost;
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.entities.PropriedadeRural;
-import com.jp.eslocapi.api.services.ProdutorService;
+import com.jp.eslocapi.api.exceptions.ProdutorNotFoundException;
+import com.jp.eslocapi.api.services.PersonaService;
 import com.jp.eslocapi.api.services.PropriedadeRuralRepository;
 import com.jp.eslocapi.api.services.PropriedadeRuralService;
 
@@ -14,11 +15,11 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 
 	PropriedadeRuralRepository repository;
 	
-	ProdutorService produtorService;
+	PersonaService produtorService;
 	
 	public PropriedadeRuralServiceImpl(
 			PropriedadeRuralRepository repository, 
-			ProdutorService personaService
+			PersonaService personaService
 			) {
 	
 		this.repository = repository;
@@ -46,9 +47,13 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 				.proprietarioCpf(saved.getProprietario().getNome())
 				.build();
 	}
+	public boolean exists(PropriedadeRural propriedadde) {
+		//Confere com o nome e o proprietario
+		return true;
+	}
 	@Override
 	public PropriedadeRural toPropriedadeRural(PropriedadeRuralMinDtoPost post) {
-		Persona proprietario = produtorService.getByCpf(post.getProprietarioCpf());
+		Persona proprietario = produtorService.getByCpf(post.getProprietarioCpf()).orElseThrow(()->new ProdutorNotFoundException());
 		
 		return PropriedadeRural.builder()
 				.nome(post.getNome())

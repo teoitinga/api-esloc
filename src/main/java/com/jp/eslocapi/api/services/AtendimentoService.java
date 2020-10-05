@@ -26,4 +26,6 @@ public interface AtendimentoService {
 
 	String geraIdentificador(String cpf);
 
+	AtendimentoDtoPost toAtendimentoPost(Atendimento atd);
+
 }
