@@ -8,7 +8,6 @@ import com.jp.eslocapi.api.entities.PropriedadeRural;
 import com.jp.eslocapi.api.services.ProdutorService;
 import com.jp.eslocapi.api.services.PropriedadeRuralRepository;
 import com.jp.eslocapi.api.services.PropriedadeRuralService;
-import com.jp.eslocapi.core.Gerenciador;
 
 @Service
 public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
@@ -17,16 +16,13 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 	
 	ProdutorService produtorService;
 	
-	Gerenciador gerenciador;
-	
 	public PropriedadeRuralServiceImpl(
 			PropriedadeRuralRepository repository, 
-			ProdutorService personaService,
-			Gerenciador gerenciador) {
+			ProdutorService personaService
+			) {
 	
 		this.repository = repository;
 		this.produtorService = personaService;
-		this.gerenciador = gerenciador;
 		
 	}
 	@Override
@@ -35,9 +31,11 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 		PropriedadeRural propriedade = toPropriedadeRural(post);
 		return toPropriedadeRuralMinDtoPost(repository.save(propriedade));
 	}
-	private String gerarCodigoPropriedade(String key) {
+	
+	@Override
+	public String gerarCodigoPropriedade(String key) {
 
-		return new Gerenciador().GERA_IDENTIFICADOR(key);
+		return "20201005200004459471604";//new Gerenciador().GERA_IDENTIFICADOR(key);
 
 	}
 	@Override

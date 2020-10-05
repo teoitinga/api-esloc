@@ -3,7 +3,6 @@ package com.jp.eslocapi.api.resources;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +47,6 @@ import com.jp.eslocapi.exceptions.BusinessException;
 public class AtendimentoRessourceTest {
 	static String API = "/api/v1/atendimentos";
 	
-	static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
 	@Autowired
 	MockMvc mvc;
 	
@@ -66,7 +63,6 @@ public class AtendimentoRessourceTest {
 		AtendimentoDtoPost savedAtendimento = createNewAtendimento();
 		
 		BDDMockito.given(service.save(Mockito.any(AtendimentoDtoPost.class))).willReturn(savedAtendimento);
-		
 		
 		String json = new ObjectMapper().writeValueAsString(dto);
 		

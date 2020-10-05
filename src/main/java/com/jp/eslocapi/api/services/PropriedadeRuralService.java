@@ -11,4 +11,6 @@ public interface PropriedadeRuralService {
 
 	PropriedadeRural toPropriedadeRural(PropriedadeRuralMinDtoPost post);
 
+	String gerarCodigoPropriedade(String key);
+
 }
