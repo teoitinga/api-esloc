@@ -69,7 +69,6 @@ public class AtendimentoServiceTest {
 
 		Mockito.when(service.toAtendimento(post)).thenReturn(atdSave);
 		Mockito.when(repository.save(atdSave)).thenReturn(atdSaved);
-//		Mockito.when(service.toAtendimentoPost(atdSave)).thenReturn(savedAtendimento);
 
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getCodigo()).isNotNull();

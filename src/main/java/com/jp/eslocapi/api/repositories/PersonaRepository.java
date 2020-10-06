@@ -12,4 +12,6 @@ public interface PersonaRepository extends JpaRepository<Persona, String> {
 
 	boolean existsByCpf(String cpf);
 
+	boolean isExistsCpf(String cpf);
+
 }

@@ -1,12 +1,11 @@
 package com.jp.eslocapi.api.services.impl;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.jp.eslocapi.api.dto.ProdutorMinDto;
 import com.jp.eslocapi.api.entities.EnumCategoria;
 import com.jp.eslocapi.api.entities.Persona;
+import com.jp.eslocapi.api.exceptions.ProdutorNotFoundException;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.services.PersonaService;
 @Service
@@ -35,8 +34,13 @@ public class PersonaServiceImpl implements PersonaService {
 	}
 
 	@Override
-	public Optional<Persona> getByCpf(String cpf) {
-		return repository.findByCpf(cpf);
+	public Persona getByCpf(String cpf) {
+		return repository.findByCpf(cpf).orElseThrow(() -> new ProdutorNotFoundException());
+	}
+	
+	@Override
+	public Boolean existsCpf(String cpf) {
+		return repository.isExistsCpf(cpf)?true:false;
 	}
 
 }

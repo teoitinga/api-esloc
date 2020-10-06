@@ -11,6 +11,7 @@ import com.jp.eslocapi.api.dto.AtendimentoDtoPost;
 import com.jp.eslocapi.api.dto.ProdutorMinDto;
 import com.jp.eslocapi.api.entities.Atendimento;
 import com.jp.eslocapi.api.entities.Persona;
+import com.jp.eslocapi.api.entities.PropriedadeRural;
 import com.jp.eslocapi.api.exceptions.NoProductorsException;
 import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
@@ -79,7 +80,18 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 		
 		//02 - verifica integridade da propriedade rural
 		////////02.1 - SE NÃO EXISTE, FAZ O REGISTRO NO BANCO DE DADOS EM NOME DO PRODUTOR INDEX(0) - PRIMEIRO PRODUTOR DA LISTA
+		//////// pesquisa a propriedade rural com o nome informado e que seja de propriedade do progutor informado
+		Persona proprietario = savedProdutores.get(0);
+		String nomeDaPropriedade = atd.getLocal();
 		
+		PropriedadeRural propriedade = this.propriedadeRuralService.findPropriedadeRural(proprietario, nomeDaPropriedade);
+		if(propriedade == null) {
+			propriedade = PropriedadeRural.builder()
+					.proprietario(proprietario)
+					.nome(nomeDaPropriedade)
+					.build();
+			propriedade = this.propriedadeRuralService.save(propriedade);
+		}
 		
 		//03 - verifica integridade dos servicos a se registrar
 		
