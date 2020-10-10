@@ -40,7 +40,7 @@ public class PersonaServiceImpl implements PersonaService {
 	
 	@Override
 	public Boolean existsCpf(String cpf) {
-		return repository.isExistsByCpf(cpf)?true:false;
+		return repository.existsByCpf(cpf)?true:false;
 	}
 
 }
