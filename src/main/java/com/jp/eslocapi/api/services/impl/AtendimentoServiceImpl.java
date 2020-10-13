@@ -23,6 +23,7 @@ import com.jp.eslocapi.api.entities.Servico;
 import com.jp.eslocapi.api.entities.ServicosAtd;
 import com.jp.eslocapi.api.entities.Tecnico;
 import com.jp.eslocapi.api.exceptions.NoProductorsException;
+import com.jp.eslocapi.api.exceptions.NotListProductorsException;
 import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
 import com.jp.eslocapi.api.repositories.ServicoRepository;
@@ -79,6 +80,8 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 	@Override
 	@Transactional
 	public AtendimentoDtoPost save(AtendimentoDtoPost atd) {
+		Atendimento atendimento = this.toAtendimento(atd);
+
 		//
 		Persona agente = Persona.builder()
 				.cpf("04459471604")
@@ -87,7 +90,7 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 				.build();
 		Tecnico emissor = tecnicoService.getByMatricula("10639");
 		
-		Atendimento atendimento = this.toAtendimento(atd);
+		atendimento.setEmissor(emissor);
 		
 		//01 - verifica integridade dos produtores a se cadastrar
 		if(atd.getProdutores()==null || atd.getProdutores().size() < 1) {
@@ -100,21 +103,24 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 		////////01.1 - VERIFICA SE JÁ EXISTE O CPF REGISTRADO
 		List<ProdutorMinDto> existentProdutors = this.getExistentProductors(validProdutors);
 		List<ProdutorMinDto> noExistentProdutors = this.getNotExistentProductors(validProdutors);
-		
 		////////01.2 - SE NÃO EXISTE, VERIFICA DE ESTÁ CORRETO
 		
 		////////01.2.3 - SE ESTÁ CORRETO, REGISTRA NO BD - os produtores não exitentes no banco de dados(noExistentProdutors)
 		List<Persona> savedProdutores = noExistentProdutors.stream().map(productor->this.registerProductors(productor))
 				.collect(Collectors.toList());
+		List<Persona> infoProductors = existentProdutors.stream().map(productor->this.personaService.toPersona(productor)).collect(Collectors.toList());
+		log.info("existentProdutors: {}", existentProdutors);
+		log.info("noExistentProdutors: {}", noExistentProdutors);
+		infoProductors.addAll(savedProdutores);
+		log.info("infoProductors: {}", infoProductors);
 		
+		atendimento.setProdutores(infoProductors);
 		////////01.2.4 - SE NÃO ESTÁ CORRETO, ARMAZENA NA VARIAVEL DE RETORNO
 		if(invalidProdutors.size()>0) {
 			//retorna para o usuario os produtores que não foram registrados
 		}
 		
-		emissor = Tecnico.builder()
-				.agente(savedProdutores.get(0))
-				.build();	
+
 		
 		//02 - Obtem o código do atendimento e configura o valor
 		///////Armazena o cpf do primeiro produtor informado
@@ -125,7 +131,10 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 		//03 - verifica integridade da propriedade rural
 		////////02.1 - SE NÃO EXISTE, FAZ O REGISTRO NO BANCO DE DADOS EM NOME DO PRODUTOR INDEX(0) - PRIMEIRO PRODUTOR DA LISTA
 		//////// pesquisa a propriedade rural com o nome informado e que seja de propriedade do progutor informado
-		Persona proprietario = savedProdutores.get(0);
+		if(infoProductors.size()==0 || infoProductors == null) {
+			throw new NotListProductorsException();
+		}
+		Persona proprietario = infoProductors.get(0);
 		String nomeDaPropriedade = atd.getLocal();
 		
 		PropriedadeRural propriedade = this.propriedadeRuralService.findPropriedadeRural(proprietario, nomeDaPropriedade);
@@ -140,10 +149,10 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 					.emissor(emissor)
 					.build();
 			
-		log.info("Propriedade Rural {}", propriedade);	
-			propriedade = this.propriedadeRuralService.save(propriedade);
+					propriedade = this.propriedadeRuralService.save(propriedade);
 		}
-
+		
+		atendimento.setPropriedadeRural(propriedade);
 
 
 		
@@ -151,27 +160,39 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 		List<ServicosAtd> servicosARegistrar;
 		List<ServicosAtd> servicosValidos = atd.getServicos().stream().map(servico->toServicosAtd(servico)).collect(Collectors.toList());
 		
+		atendimento.setServicos(servicosValidos);
+		
 		//05 - verifica integridade das recomendações
-		String recomendaoces;
+		String recomendaoces = null;
+		
+		atendimento.setRecomendacoes(recomendaoces);
 		
 		//06 - verifica integridade da data do atendimentos
-		LocalDate dataAtendimento;
+		LocalDate dataAtendimento = LocalDate.now();
+		
+		atendimento.setAtendimentoData(dataAtendimento);
 		
 		//07 - verifica integridade do responsável técnico
-		Tecnico responsavel;
+		Tecnico responsavel = null;
+		
+		atendimento.setResponsavelTecnico(responsavel);
 		
 		//08 - verifica integridade do emissor
 		emissor = Tecnico.builder()
 				.agente(proprietario)
 				.build();
 		
+		atendimento.setEmissor(emissor);
+		
 		//09 - por ser uma inserção, set a flag tornar publico como NAO
 		EnumConfirm publicar = EnumConfirm.NAO;
+		
+		atendimento.setPublico(publicar);
 		
 		//10- por ser uma insserção, seta o status do atendimentos como INICIADA
 		EnumStatus status = EnumStatus.INICIADA;
 		
-		
+		atendimento.setStatus(status);
 
 		//registra no banco de dados
 

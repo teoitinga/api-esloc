@@ -25,7 +25,8 @@ public class PersonaServiceImpl implements PersonaService {
 		return this.repository.save(produtor);
 	}
 
-	private Persona toPersona(ProdutorMinDto productor) {
+	@Override
+	public Persona toPersona(ProdutorMinDto productor) {
 		return Persona.builder()
 				.cpf(productor.getCpf())
 				.nome(productor.getNome())

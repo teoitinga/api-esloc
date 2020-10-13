@@ -11,4 +11,6 @@ public interface PersonaService {
 
 	Boolean existsCpf(String cpf);
 
+	Persona toPersona(ProdutorMinDto productor);
+
 }
