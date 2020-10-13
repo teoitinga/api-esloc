@@ -1,43 +1,66 @@
 package com.jp.eslocapi.api.services.impl;
 
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.jp.eslocapi.api.dto.AtendimentoDtoPost;
+import com.jp.eslocapi.api.dto.AtendimentoInfoDto;
 import com.jp.eslocapi.api.dto.ProdutorMinDto;
+import com.jp.eslocapi.api.dto.ServicosDtoPost;
 import com.jp.eslocapi.api.entities.Atendimento;
+import com.jp.eslocapi.api.entities.EnumCategoria;
+import com.jp.eslocapi.api.entities.EnumConfirm;
+import com.jp.eslocapi.api.entities.EnumStatus;
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.entities.PropriedadeRural;
+import com.jp.eslocapi.api.entities.Servico;
+import com.jp.eslocapi.api.entities.ServicosAtd;
+import com.jp.eslocapi.api.entities.Tecnico;
 import com.jp.eslocapi.api.exceptions.NoProductorsException;
 import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
+import com.jp.eslocapi.api.repositories.ServicoRepository;
+import com.jp.eslocapi.api.repositories.TecnicoRespository;
 import com.jp.eslocapi.api.services.AtendimentoService;
 import com.jp.eslocapi.api.services.PersonaService;
 import com.jp.eslocapi.api.services.PropriedadeRuralRepository;
 import com.jp.eslocapi.api.services.PropriedadeRuralService;
+import com.jp.eslocapi.api.services.ServicoService;
+import com.jp.eslocapi.api.services.TecnicoService;
 import com.jp.eslocapi.core.Gerenciador;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AtendimentoServiceImpl implements AtendimentoService {
 
 	private AtendimentoRepository repository;
 	
 	private PersonaService personaService;
 	
-	private PropriedadeRuralService propriedadeRuralService;
+	private TecnicoService tecnicoService;
 	
-	private PropriedadeRuralRepository propriedadeRuralRepository;
+	private PropriedadeRuralService propriedadeRuralService;
+
+	private ServicoService servicoService;
 	
 	public AtendimentoServiceImpl(
 			AtendimentoRepository repository,
-			PersonaService personaService, 
+			//PersonaService personaService, 
 			PersonaRepository personaRepository,
-			PropriedadeRuralService propriedadeRuralService,
-			PropriedadeRuralRepository propriedadeRuralRepository
+			//PropriedadeRuralService propriedadeRuralService,
+			PropriedadeRuralRepository propriedadeRuralRepository,
+			//ServicoService servicoService,
+			ServicoRepository servicoRepository,
+			//TecnicoService tecnicoService,
+			TecnicoRespository tecnicoRepository
 			) {
 
 		this.repository = repository;
@@ -48,10 +71,21 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 												propriedadeRuralRepository,
 												this.personaService);
 		
+		this.servicoService = new ServicoServiceImpl(servicoRepository);
+		
+		this.tecnicoService = new TecnicoServiceImpl(tecnicoRepository);
 	}
 
 	@Override
+	@Transactional
 	public AtendimentoDtoPost save(AtendimentoDtoPost atd) {
+		//
+		Persona agente = Persona.builder()
+				.cpf("04459471604")
+				.nome("João Paulo")
+				.categoria(EnumCategoria.OUTROS)
+				.build();
+		Tecnico emissor = tecnicoService.getByMatricula("10639");
 		
 		Atendimento atendimento = this.toAtendimento(atd);
 		
@@ -78,44 +112,89 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 			//retorna para o usuario os produtores que não foram registrados
 		}
 		
-		//02 - verifica integridade da propriedade rural
+		emissor = Tecnico.builder()
+				.agente(savedProdutores.get(0))
+				.build();	
+		
+		//02 - Obtem o código do atendimento e configura o valor
+		///////Armazena o cpf do primeiro produtor informado
+		
+		String codigoDoAtendimento = this.geraIdentificador(atd.getProdutores().get(0).getCpf());
+		atendimento.setCodigo(codigoDoAtendimento);	
+		
+		//03 - verifica integridade da propriedade rural
 		////////02.1 - SE NÃO EXISTE, FAZ O REGISTRO NO BANCO DE DADOS EM NOME DO PRODUTOR INDEX(0) - PRIMEIRO PRODUTOR DA LISTA
 		//////// pesquisa a propriedade rural com o nome informado e que seja de propriedade do progutor informado
 		Persona proprietario = savedProdutores.get(0);
 		String nomeDaPropriedade = atd.getLocal();
 		
 		PropriedadeRural propriedade = this.propriedadeRuralService.findPropriedadeRural(proprietario, nomeDaPropriedade);
+		
 		if(propriedade == null) {
+			
+
 			propriedade = PropriedadeRural.builder()
+					.codigo(codigoDoAtendimento)
 					.proprietario(proprietario)
 					.nome(nomeDaPropriedade)
+					.emissor(emissor)
 					.build();
+			
+		log.info("Propriedade Rural {}", propriedade);	
 			propriedade = this.propriedadeRuralService.save(propriedade);
 		}
+
+
+
 		
-		//03 - verifica integridade dos servicos a se registrar
+		//04 - verifica integridade dos servicos a se registrar
+		List<ServicosAtd> servicosARegistrar;
+		List<ServicosAtd> servicosValidos = atd.getServicos().stream().map(servico->toServicosAtd(servico)).collect(Collectors.toList());
 		
-		//04 - verifica integridade das recmoendações
+		//05 - verifica integridade das recomendações
+		String recomendaoces;
 		
-		//05 - verifica integridade da data do atendimentos
+		//06 - verifica integridade da data do atendimentos
+		LocalDate dataAtendimento;
 		
-		//06 - verifica integridade do responsável técnico
+		//07 - verifica integridade do responsável técnico
+		Tecnico responsavel;
 		
-		//07 - verifica integridade do emissor
+		//08 - verifica integridade do emissor
+		emissor = Tecnico.builder()
+				.agente(proprietario)
+				.build();
 		
-		//07 - por ser uma insercção, set a flag tornar publico como NAO
+		//09 - por ser uma inserção, set a flag tornar publico como NAO
+		EnumConfirm publicar = EnumConfirm.NAO;
+		
+		//10- por ser uma insserção, seta o status do atendimentos como INICIADA
+		EnumStatus status = EnumStatus.INICIADA;
 		
 		
-		//07- por ser uma insserção, seta o status do atendimentos como INICIADA
-		
-		
-		
-		//obtem o código do atendimento
-		atendimento.setCodigo("202010051558000459471604");
+
 		//registra no banco de dados
-		return toAtendimentoPost(repository.save(atendimento));
+
+		
+		Atendimento savedAtendimento = repository.save(atendimento);
+
+
+		return toAtendimentoPost(savedAtendimento);
 	}
 	
+	@Override
+	public ServicosAtd toServicosAtd(ServicosDtoPost servico) {
+
+		Servico srv = servicoService.findByCodServico(servico.getCodServico());
+
+		return ServicosAtd.builder()
+				.codigo(servico.getCodServico())
+				.descricao(servico.getDescricao())
+				.observacoes(servico.getObservacoes())
+				.servico(srv)
+				.build();
+	}
+
 	private Persona registerProductors(ProdutorMinDto productor) {
 		Persona saved;
 		saved = this.personaService.save(productor);
@@ -134,8 +213,8 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 
 	@Override
 	public boolean isRegistered(String cpf) {
-		Optional<Persona> produtor = repository.findByCpf(cpf);
-		if(produtor.isPresent()) {
+
+		if(personaService.existsCpf(cpf)) {
 			return true;
 		};
 		
@@ -247,6 +326,24 @@ public class AtendimentoServiceImpl implements AtendimentoService {
 	@Override
 	public String geraIdentificador(String cpf) {
 		return Gerenciador.GERA_IDENTIFICADOR(cpf);
+	}
+
+	@Override
+	public List<AtendimentoInfoDto> getAtendimentos() {
+		List<Atendimento> atds = repository.findAll();
+		
+		return atds.stream().map(atd->toListAtendimentoInfoDto(atd)).collect(Collectors.toList());
+	}
+
+	private AtendimentoInfoDto toListAtendimentoInfoDto(Atendimento atd) {
+		return toAtendimentoInfoDto(atd);
+	}
+
+	private AtendimentoInfoDto toAtendimentoInfoDto(Atendimento atd) {
+		return AtendimentoInfoDto.builder()
+				.codigo(atd.getCodigo())
+				.recomendacoes(atd.getRecomendacoes())
+				.build();
 	}
 
 

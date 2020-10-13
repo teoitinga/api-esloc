@@ -1,5 +1,6 @@
 package com.jp.eslocapi.api.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -40,7 +41,7 @@ public class PropriedadeRuralServiceTest {
 	@BeforeEach
 	public void setUp() {
 		log.info("Iniciando o metodo de teste.");
-		//this.service = new PropriedadeRuralServiceImpl(repository, personaService);
+		this.service = new PropriedadeRuralServiceImpl(repository, personaService);
 	}
 	@Test
 	@DisplayName("Deve testar a geração de códigos para rregistro no ID das classes")
@@ -71,20 +72,52 @@ public class PropriedadeRuralServiceTest {
 		//cenário
 		PropriedadeRuralMinDtoPost post = createValidPropriedadeRuralMinDtoPost();
 
-		String cpfProprietario = "04459471604";
-//		Mockito.when(service.gerarCodigoPropriedade(cpfProprietario)).thenReturn(Gerenciador.GERA_IDENTIFICADOR(cpfProprietario));
-
 		Mockito.when(personaService.getByCpf(Mockito.anyString())).thenReturn(createPersona());
-//		Mockito.when(service.toPropriedadeRural(post)).thenReturn(createPropriedadeRuralSaved());
 		Mockito.when(repository.save(Mockito.any(PropriedadeRural.class))).thenReturn(createPropriedadeRuralSaved());
 		
 		log.info("Verificando {}", post);
-		this.service = new PropriedadeRuralServiceImpl(repository, personaService);
+		//this.service = new PropriedadeRuralServiceImpl(repository, personaService);
 		savedProp = service.save(post);
+
 		//verificações
 		org.assertj.core.api.Assertions.assertThat(this.service).isNotNull();
 		org.assertj.core.api.Assertions.assertThat(savedProp).isNotNull();
-//		org.assertj.core.api.Assertions.assertThat(prop.getNome()).isEqualTo(post.getNome());	
+		org.assertj.core.api.Assertions.assertThat(savedProp.getAreaTotal()).isEqualTo(post.getAreaTotal());	
+		org.assertj.core.api.Assertions.assertThat(savedProp.getProprietarioCpf()).isEqualTo(post.getProprietarioCpf());	
+	}
+	@Test
+	@DisplayName("Deve testar a conversão de propriedadeRural para PropriedadeRuralMinDtoPost DTO")
+	public void toPropriedadeRuralMinDtoPostTest() {
+		//cenário
+		
+		propriedadeRural = createValidPropriedadeRural();
+		
+		PropriedadeRuralMinDtoPost response;
+	
+		//execução
+		response = service.toPropriedadeRuralMinDtoPost(propriedadeRural);
+		
+		//verificações
+		org.assertj.core.api.Assertions.assertThat(response).isNotNull();
+		org.assertj.core.api.Assertions.assertThat(response.getCodigo()).isEqualTo(propriedadeRural.getCodigo());
+		org.assertj.core.api.Assertions.assertThat(response.getNome()).isEqualTo(propriedadeRural.getNome());
+		org.assertj.core.api.Assertions.assertThat(response.getProprietarioCpf()).isEqualTo(propriedadeRural.getProprietario().getCpf());
+		org.assertj.core.api.Assertions.assertThat(response.getAreaTotal()).isEqualTo(propriedadeRural.getAreaTotal());
+	}
+	@Test
+	@DisplayName("Deve testar a conversão de PropriedadeRuralMin DTO para propriedadeRural")
+	public void toPropriedadeRuralTest() {
+		
+		//cenário
+		PropriedadeRuralMinDtoPost post = createValidPropriedadeRuralMinDtoPost();
+		
+		PropriedadeRural response;
+
+		//execução
+		response = service.toPropriedadeRural(post);//.toPropriedadeRuralMinDtoPost(post);
+		
+		//verificações
+		org.assertj.core.api.Assertions.assertThat(response).isNotNull();
 	}
 	private Persona createPersona() {
 
@@ -99,6 +132,7 @@ public class PropriedadeRuralServiceTest {
 		return PropriedadeRuralMinDtoPost.builder()
 				.codigo(Gerenciador.GERA_IDENTIFICADOR(cpf))
 				.nome("Sitio Saudade II")
+				.areaTotal(BigDecimal.valueOf(19.36))
 				.proprietarioCpf(cpf)
 				.build();
 	}
@@ -107,9 +141,27 @@ public class PropriedadeRuralServiceTest {
 	 * @return
 	 */
 	private PropriedadeRural createPropriedadeRuralSaved() {
-		return PropriedadeRural.builder().build();
+		Persona proprietario = Persona.builder()
+				.cpf("04459471604")
+				.nome("João Paulo Santana Gusmão")
+				.build();
+		return PropriedadeRural.builder()
+						.codigo(Gerenciador.GERA_IDENTIFICADOR(proprietario.getCpf()))
+						.nome("Sitio Saudade II")
+						.areaTotal(BigDecimal.valueOf(19.36))
+						.proprietario(proprietario)
+				.build();
 	}
 	private PropriedadeRural createValidPropriedadeRural() {
-		return PropriedadeRural.builder().build();
+		Persona proprietario = Persona.builder()
+				.cpf("04459471604")
+				.nome("João Paulo Santana Gusmão")
+				.build();
+		return PropriedadeRural.builder()
+						.codigo(Gerenciador.GERA_IDENTIFICADOR(proprietario.getCpf()))
+						.nome("Sitio Saudade II")
+						.areaTotal(BigDecimal.valueOf(19.36))
+						.proprietario(proprietario)
+				.build();
 	}
 }

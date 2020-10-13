@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.jp.eslocapi.api.dto.PropriedadeRuralMinDtoPost;
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.entities.PropriedadeRural;
+import com.jp.eslocapi.api.entities.Tecnico;
 import com.jp.eslocapi.api.services.PersonaService;
 import com.jp.eslocapi.api.services.PropriedadeRuralRepository;
 import com.jp.eslocapi.api.services.PropriedadeRuralService;
@@ -27,7 +28,6 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 
 	@Override
 	public PropriedadeRuralMinDtoPost save(PropriedadeRuralMinDtoPost post) {
-		log.info("Log save {}", post);
 		
 		post.setCodigo(gerarCodigoPropriedade(post.getProprietarioCpf()));
 		
@@ -45,11 +45,12 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 
 	@Override
 	public PropriedadeRuralMinDtoPost toPropriedadeRuralMinDtoPost(PropriedadeRural saved) {
-		log.info("Log toPropriedadeRuralMinDtoPost {}", saved);
 		return PropriedadeRuralMinDtoPost.builder()
 				.codigo(saved.getCodigo())
 				.nome(saved.getNome())
-				.proprietarioCpf(saved.getProprietario().getNome())
+				.proprietarioCpf(saved.getProprietario().getCpf())
+				.codigo(saved.getCodigo())
+				.areaTotal(saved.getAreaTotal())
 				.build();
 	}
 
@@ -62,7 +63,17 @@ public class PropriedadeRuralServiceImpl implements PropriedadeRuralService {
 	public PropriedadeRural toPropriedadeRural(PropriedadeRuralMinDtoPost post) {
 		Persona proprietario = personaService.getByCpf(post.getProprietarioCpf());
 
-		return PropriedadeRural.builder().nome(post.getNome()).proprietario(proprietario).build();
+		Tecnico emissor = Tecnico.builder()
+				.agente(proprietario)
+				.build();
+		
+		return PropriedadeRural.builder()
+				.nome(post.getNome())
+				.proprietario(proprietario)
+				.areaTotal(post.getAreaTotal())
+				.codigo(post.getCodigo())
+				.emissor(emissor)
+				.build();
 	}
 
 	@Override

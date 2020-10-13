@@ -84,11 +84,12 @@ public class AtendimentoRessourceTest {
 		
 					
 	}
+
 	@Test
 	@DisplayName("Deve lançar erro se não haver produtores")
 	public void createInvalidAtendimentoNoProductorsTest() throws Exception {
+
 		//cenário (given)
-		
 		AtendimentoDtoPost dto = generateInValidAtendimentNoProdutctors();
 		
 		String json = new ObjectMapper().writeValueAsString(dto);

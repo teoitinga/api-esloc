@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,16 +22,24 @@ import com.jp.eslocapi.api.entities.Atendimento;
 import com.jp.eslocapi.api.entities.EnumStatus;
 import com.jp.eslocapi.api.entities.Persona;
 import com.jp.eslocapi.api.entities.PropriedadeRural;
+import com.jp.eslocapi.api.entities.Servico;
+import com.jp.eslocapi.api.entities.ServicosAtd;
 import com.jp.eslocapi.api.entities.Tecnico;
 import com.jp.eslocapi.api.repositories.AtendimentoRepository;
 import com.jp.eslocapi.api.repositories.PersonaRepository;
+import com.jp.eslocapi.api.repositories.ServicoRepository;
+import com.jp.eslocapi.api.repositories.TecnicoRespository;
 import com.jp.eslocapi.api.services.impl.AtendimentoServiceImpl;
+import com.jp.eslocapi.api.services.impl.ServicoServiceImpl;
+
+import lombok.extern.slf4j.Slf4j;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
+@Slf4j
 public class AtendimentoServiceTest {
 
-	@MockBean
+	//@MockBean
 	AtendimentoService service;
 
 	@MockBean
@@ -41,41 +50,85 @@ public class AtendimentoServiceTest {
 
 	@MockBean
 	PropriedadeRuralService propriedadeRuralService;
+
+	@MockBean
+	ServicoService servicoService;
 	
 	@MockBean
 	PropriedadeRuralRepository propriedadeRuralRepository;
 	
 	@MockBean
+	ServicoRepository servicoRepository;
+	
+	@MockBean
 	PersonaService personaService;
+
+	@MockBean
+	TecnicoRespository tecnicoRepository;
 
 	@BeforeEach
 	public void setUp() {
-		this.service = new AtendimentoServiceImpl(repository, personaService, personaRepository,
-				propriedadeRuralService, propriedadeRuralRepository);
+		this.service = new AtendimentoServiceImpl(
+				repository, 
+//				personaService, 
+				personaRepository,
+//				propriedadeRuralService, 
+				propriedadeRuralRepository, 
+//				servicoService, 
+				servicoRepository,
+				tecnicoRepository);
+
 	}
 
 	@Test
 	@DisplayName("Deve salvar o registro de atendimento")
 	public void saveTest() {
+		
 		// cenário
 		AtendimentoDtoPost post = this.generateAtendimentoDtoPost();
+		AtendimentoDtoPost saved = this.generateAtendimentoDtoPost();
 		Atendimento atdSave = generateValidAtendimento();
-
+		
+		Mockito.when(servicoRepository.findByCodigo(Mockito.anyString())).thenReturn(Optional.of(createValidService()));
+		Mockito.when(tecnicoRepository.getByMatricula(Mockito.anyString())).thenReturn(Optional.of(Tecnico.builder().build()));
 		// execução
-		this.service.save(post);
+		saved = this.service.save(post);
 		
 		AtendimentoDtoPost savedAtendimento = this.generateAtendimentoDtoPost();
 		Atendimento atdSaved = createdAtendimento();
-
-		Mockito.when(service.toAtendimento(post)).thenReturn(atdSave);
-		Mockito.when(repository.save(atdSave)).thenReturn(atdSaved);
 
 		// verificação
 		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getCodigo()).isNotNull();
 		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getRecomendacoes())
 				.isEqualTo(post.getRecomendacoes());
 		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getLocal()).isEqualTo(post.getLocal());
+		org.assertj.core.api.Assertions.assertThat(savedAtendimento.getStatusAtd()).isEqualTo("INICIADA");
 
+	}
+
+	private ServicosAtd createValidServicoAtd() {
+
+		Atendimento atd = Atendimento.builder()
+				.build();
+		
+		return ServicosAtd.builder()
+				.atendimento(atd)
+				.codigo("202010030201")
+				.descricao("reallização de dia de campo")
+				.observacoes("não há nada no pasto")
+				.servico(this.createValidService())
+				.valorDae(new BigDecimal(184.45))
+				.valorTotal(new BigDecimal(50000.32))
+				.build();
+	}
+
+	private Servico createValidService() {
+		
+		return Servico.builder()
+				.codigo("CAR")
+				.definicao("Elaboração de cadastro")
+				.descricao("Cadastro Ambiental Rural")
+				.build();
 	}
 
 	@Test
@@ -176,12 +229,14 @@ public class AtendimentoServiceTest {
 	}
 
 	@Test
-	@DisplayName("Deve lancar erro ao registrar atendimento para produrtores com Cpf's invalidos")
+	@DisplayName("Deve lancar erro ao registrar atendimento para produtores com Cpf's invalidos")
 	public void saveInvalidCPfsTest() {
 		// cenário
 		AtendimentoDtoPost post = this.generateAtendimentoDtoPost();
 		Atendimento atdSave = generateValidAtendimento();
-
+		
+		Mockito.when(servicoRepository.findByCodigo(Mockito.anyString())).thenReturn(Optional.of(createValidService()));
+		Mockito.when(tecnicoRepository.getByMatricula(Mockito.anyString())).thenReturn(Optional.of(Tecnico.builder().build()));
 		// execução
 		AtendimentoDtoPost savedAtendimento = this.service.save(post);
 		Atendimento atdSaved = createdAtendimento();
@@ -283,6 +338,7 @@ public class AtendimentoServiceTest {
 				.nome("Faz. Saudade II")
 				.proprietario(agente)
 				.build();
+		
 		return Atendimento.builder()
 				.codigo("20200930")
 				.recomendacoes("realizar análise de solos na área pretendida.")
