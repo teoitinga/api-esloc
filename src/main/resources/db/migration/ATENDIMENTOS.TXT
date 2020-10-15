@@ -1,0 +1,93 @@
+2020-07-29 09:44:10.157000	2020-07-30	04459471604		ANALISE DE SOLO	100.00	11740141644	AMIS	2020-07-29
+2020-07-29 09:51:45.324000	2020-08-05	04459471604		Elaboração projeto Coban	200.00	70479054649	CRINBB	2020-07-29
+2020-07-29 09:51:45.416000	2020-07-31	04459471604		Emissão segunda via	0.00	70479054649	DAP	2020-07-29
+2020-07-29 09:51:45.631000	2020-08-05	04459471604		Elaboração projeto Coban	200.00	81857918649	CRINBB	2020-07-29
+2020-07-29 09:51:45.725000	2020-07-31	04459471604		Emissão segunda via	0.00	81857918649	DAP	2020-07-29
+2020-07-29 10:00:04.187000	2020-08-05	04459471604		Elaboração de projeto	250.00	11740141644	CRCSSC	2020-07-29
+2020-07-29 10:00:04.280000	2020-08-05	04459471604		Elaboração de projeto	250.00	49529609604	CRCSSC	2020-07-29
+2020-07-29 10:04:39.649000	2020-07-31	04459471604		EMISSÃO DE DAP	0.00	49529609604	DAP	2020-07-29
+2020-07-29 10:04:39.738000	2020-07-31	04459471604		EMISSÃO DE DAP	0.00	07730310732	DAP	2020-07-29
+2020-07-29 10:04:39.821000	2020-07-31	04459471604		EMISSÃO DE DAP	0.00	08898961600	DAP	2020-07-29
+2020-07-29 10:04:39.886000	2020-07-31	04459471604		EMISSÃO DE DAP	0.00	00689187637	DAP	2020-07-29
+2020-07-29 10:04:39.970000	2020-07-31	04459471604		EMISSÃO DE DAP	0.00	66889650620	DAP	2020-07-29
+2020-07-29 14:58:04.604000	2020-07-31	04459471604	Ver o valor do custeio para retificar	Elaboração de limite de crédito para Banco do Brasil	150.00	03674950669	LM	2020-07-29
+2020-07-29 15:29:39.181000	2020-07-31	04459471604	Produtor retornara para assinar projeto e assim lançar no sistema	Retificação CAR	200.00	04721404697	CAR	2020-07-29
+2020-07-29 15:29:39.280000	2020-08-05	04459471604	Produtor retornara para assinar projeto e assim lançar no sistema	Elaboração projeto de crédito COBAN	300.00	04721404697	CRINBB	2020-07-29
+2020-07-29 15:29:39.372000	2020-07-31	04459471604	Produtor retornara para assinar projeto e assim lançar no sistema	Retificação CAR	200.00	05819901614	CAR	2020-07-29
+2020-07-29 15:29:39.504000	2020-08-05	04459471604	Produtor retornara para assinar projeto e assim lançar no sistema	Elaboração projeto de crédito COBAN	300.00	05819901614	CRINBB	2020-07-29
+2020-07-29 15:29:39.572000	2020-07-31	04459471604	Produtor retornara para assinar projeto e assim lançar no sistema	Retificação CAR	200.00	18025501604	CAR	2020-07-29
+2020-07-29 15:29:39.653000	2020-08-05	04459471604	Produtor retornara para assinar projeto e assim lançar no sistema	Elaboração projeto de crédito COBAN	300.00	18025501604	CRINBB	2020-07-29
+2020-07-29 15:35:28.511000	2020-07-31	04459471604	Emitir DAE assim que o Fernando pedir	Limite para BB	150.00	89942361634	LM	2020-07-29
+2020-07-29 15:56:26.106000	2020-08-05	04459471604		TRATOR	800.00	00689187637	CRINBB	2020-07-29
+2020-07-29 16:23:03.826000	2020-07-31	04459471604		Retificação	200.00	68960840653	CAR	2020-07-29
+2020-08-04 08:37:58.976000	2020-08-06	04459471604		Elaboração de limite de crédito para Banco do Brasil	150.00	57388261672	LM	2020-08-04
+2020-08-04 09:06:26.423000	2020-08-06	04459471604		Elaboração de limite de crédito para Banco do Brasil	150.00	80318002604	LM	2020-08-04
+2020-08-04 11:12:03.628000	2020-07-31	04459471604		Elaboração de limite de crédito para Sicoob	150.00	11740141644	CAD	2020-07-29
+2020-08-04 11:12:03.642000	2020-08-05	04459471604		Sicoob - Elaboração de projeto de crédito rural invstimento	250.00	11740141644	CRINSC	2020-07-29
+2020-08-04 11:28:02.466000	2020-07-15	04459471604		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural custeio	150.00	10272371696	CRCBBAF	2020-07-08
+2020-08-04 11:28:02.472000	2020-07-15	04459471604		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	150.00	10272371696	CRIBBAF	2020-07-08
+2020-08-04 11:28:02.477000	2020-07-09	04459471604		Consulta irregularidade em acesso a DAP	0.00	10272371696	DAPCS	2020-07-08
+2020-08-04 11:28:02.480000	2020-07-10	04459471604		Emissão de Declaração de aptidão ao pronaf	0.00	10272371696	DAP	2020-07-08
+2020-08-04 11:28:02.482000	2020-07-15	04459471604		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural custeio	150.00	72563397634	CRCBBAF	2020-07-08
+2020-08-04 11:28:02.485000	2020-07-15	04459471604		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	150.00	72563397634	CRIBBAF	2020-07-08
+2020-08-04 11:28:02.489000	2020-07-09	04459471604		Consulta irregularidade em acesso a DAP	0.00	72563397634	DAPCS	2020-07-08
+2020-08-04 11:28:02.492000	2020-07-10	04459471604		Emissão de Declaração de aptidão ao pronaf	0.00	72563397634	DAP	2020-07-08
+2020-08-04 11:28:02.495000	2020-07-15	04459471604		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural custeio	150.00	55637086672	CRCBBAF	2020-07-08
+2020-08-04 11:28:02.498000	2020-07-15	04459471604		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	150.00	55637086672	CRIBBAF	2020-07-08
+2020-08-04 11:28:02.501000	2020-07-09	04459471604		Consulta irregularidade em acesso a DAP	0.00	55637086672	DAPCS	2020-07-08
+2020-08-04 11:28:02.505000	2020-07-10	04459471604		Emissão de Declaração de aptidão ao pronaf	0.00	55637086672	DAP	2020-07-08
+2020-08-05 08:57:55.904000	2020-07-17			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	07730310732	DAP	2020-07-15
+2020-08-05 08:57:55.978000	2020-07-17			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	08898961600	DAP	2020-07-15
+2020-08-05 08:59:16.040000	2020-08-01			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	08412252659	DAP	2020-07-30
+2020-08-05 09:00:21.340000	2020-08-01			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	55775071620	DAP	2020-07-30
+2020-08-05 09:00:21.347000	2020-08-01				0.00	55775071620	DAP	2020-07-30
+2020-08-05 09:00:21.353000	2020-08-01			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	03069742661	DAP	2020-07-30
+2020-08-05 09:00:21.359000	2020-08-01				0.00	03069742661	DAP	2020-07-30
+2020-08-05 09:30:45.074000	2020-08-12			Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	20.00	94361258600	CRIBBAF	2020-08-05
+2020-08-05 09:36:45.770000	2020-08-06			Cadastro de uso insignificante/ emissão 2 via	0.00	03249194689	AGCAD	2020-08-05
+2020-08-05 09:36:45.778000	2020-08-06			Cadastro de uso insignificante/ emissão 2 via	0.00	08620572644	AGCAD	2020-08-05
+2020-08-05 15:53:00.250000	2020-08-07			Emissão de Declaração de aptidão ao pronaf	0.00	24360961634	DAP	2020-08-05
+2020-08-05 15:53:00.289000	2020-08-07			Emissão de Declaração de aptidão ao pronaf	0.00	18027717604	DAP	2020-08-05
+2020-08-06 17:02:57.406000	2020-08-07		Enviado para atendimento em Sobrália	DAP - Consulta irregularidade em acesso a DAP	0.00	11773394630	DAPCS	2020-08-06
+2020-08-10 17:15:22.480000	2020-08-12			Gleba - elaboração de Geo referenciamento	50.00	79131646891	GLB	2020-08-10
+2020-08-11 15:12:28.347000	2020-08-13			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	01443134643	DAP	2020-08-11
+2020-08-11 15:12:28.414000	2020-08-13			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	05722708607	DAP	2020-08-11
+2020-08-11 16:17:52.217000	2020-08-12			DAP - Consulta irregularidade em acesso a DAP/ municipio Engenheiro	0.00	99191261600	DAPCS	2020-08-11
+2020-08-11 16:17:52.237000	2020-08-12			DAP - Consulta irregularidade em acesso a DAP/ municipio Engenheiro	0.00	04664277601	DAPCS	2020-08-11
+2020-08-12 09:30:31.648000	2020-08-19			Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	20000.00	30878454691	CRIBBAF	2020-08-12
+2020-08-13 09:13:11.406000	2020-08-14			Interpretação de análise de solo	0.00	45717010630	AMIS	2020-08-13
+2020-08-13 16:30:30.002000	2020-08-14		Ficou de trazer os documentos que estão faltando.	DAP - Consulta irregularidade em acesso a DAP	0.00	89942370625	DAPCS	2020-08-13
+2020-08-13 16:30:30.030000	2020-08-15		Ficou de trazer os documentos que estão faltando.	DAP - Emissão de Declaração de aptidão ao pronaf	0.00	89942370625	DAP	2020-08-13
+2020-08-13 16:30:30.034000	2020-08-14		Ficou de trazer os documentos que estão faltando.	ATER - Bovinocultura	0.00	89942370625	ATERBOV	2020-08-13
+2020-08-13 16:30:30.037000	2020-08-14		Ficou de trazer os documentos que estão faltando.	DAP - Consulta irregularidade em acesso a DAP	0.00	07877993609	DAPCS	2020-08-13
+2020-08-13 16:30:30.043000	2020-08-15		Ficou de trazer os documentos que estão faltando.	DAP - Emissão de Declaração de aptidão ao pronaf	0.00	07877993609	DAP	2020-08-13
+2020-08-13 16:30:30.047000	2020-08-14		Ficou de trazer os documentos que estão faltando.	ATER - Bovinocultura	0.00	07877993609	ATERBOV	2020-08-13
+2020-08-19 15:06:54.955000	2020-08-21			Emissão de Declaração de aptidão ao pronaf	0.00	89942370625	DAP	2020-08-19
+2020-08-19 15:06:55.220000	2020-08-21			Emissão de Declaração de aptidão ao pronaf	0.00	07877993609	DAP	2020-08-19
+2020-08-19 15:31:59.247000	2020-08-20			Cadastro ambiental Rural - 2a via	0.00	70115702687	CAR2V	2020-08-19
+2020-08-24 10:43:51.629000	2020-08-26			Elaboração de limite de crédito para Banco do Brasil	150.00	53004540606	LM	2020-08-24
+2020-08-25 14:25:40.711000	2020-09-01			Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural custeio	0.00	49529420668	CRCBBAF	2020-08-25
+2020-08-26 12:57:26.861000	2020-09-02			Banco do Brasil - Pronaf - Custeio - Elaboração de projeto de crédito rural custeio	8000.00	70080410634	CRCBBAF	2020-08-26
+2020-08-28 10:18:36.836000	2020-09-04			Sicoob - Elaboração de projeto de crédito rural custeio	150.00	01057554600	CRCSSC	2020-08-28
+2020-08-31 10:36:47.966000	2020-09-07			Banco do Brasil - Elaboração de projeto de crédito rural investimento	50000.00	04958807608	CRINBB	2020-08-31
+2020-09-02 15:07:07.816000	2020-09-04			Elaboração de limite de crédito para Banco do Brasil	150.00	18025862615	LM	2020-09-02
+2020-09-03 09:17:58.761000	2020-09-10			Sicoob - Elaboração de projeto de crédito rural invstimento	150.00	93342578653	CRINSC	2020-09-03
+2020-09-03 14:54:10.855000	2020-09-05			Elaboração de limite de crédito para Banco do Brasil	150.00	08296057620	LM	2020-09-03
+2020-09-03 15:10:04.225000	2020-09-05			Elaboração de limite de crédito para Sicoob	150.00	04194862759	CAD	2020-09-03
+2020-09-03 15:10:04.230000	2020-09-05			Elaboração de limite de crédito para Sicoob	150.00	04194862759	CAD	2020-09-03
+2020-09-04 14:23:55.584000	2020-09-06			DAP - Emissão de Declaração de aptidão ao pronaf	0.00	61453072691	DAP	2020-09-04
+2020-09-23 10:31:49.841000	2020-09-25	09298188650		Elaboração de limite de crédito para Banco do Brasil	0.00	00196874602	LM	2020-09-23
+2020-09-23 11:36:47.326000	2020-09-30	09298188650		Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	0.00	03953105639	CRIBBAF	2020-09-23
+2020-09-23 13:11:39.740000	2020-09-23	09298188650		Cadastro ambiental Rural - 2a via	0.00	78254507600	CAR2V	2020-09-22
+2020-09-23 14:49:16.153000	2020-09-25	09298188650		DAP - Emissão de Declaração de aptidão ao pronaf	0.00	38791846668	DAP	2020-09-23
+2020-09-23 14:49:16.158000	2020-09-25	09298188650		DAP - Emissão de Declaração de aptidão ao pronaf	0.00	87363917604	DAP	2020-09-23
+2020-09-24 09:49:07.519000	2020-10-01	09298188650		Banco do Brasil - Pronaf - Custeio - Elaboração de projeto de crédito rural custeio	0.00	50743848691	CRCBBAF	2020-09-24
+2020-09-24 09:49:07.585000	2020-10-01	09298188650		Banco do Brasil - Pronaf - Custeio - Elaboração de projeto de crédito rural custeio	0.00	05610946670	CRCBBAF	2020-09-24
+2020-09-24 10:03:26.362000	2020-09-26	09298188650	Alvarenga	DAP - Emissão de Declaração de aptidão ao pronaf	0.00	11235139611	DAP	2020-09-24
+2020-09-24 11:07:38.922000	2020-09-26	09298188650		DAP - Emissão de Declaração de aptidão ao pronaf	0.00	00420266879	DAP	2020-09-24
+2020-09-24 11:07:38.930000	2020-09-26	09298188650		DAP - Emissão de Declaração de aptidão ao pronaf	0.00	04899893655	DAP	2020-09-24
+2020-09-24 13:40:26.266000	2020-09-26	09298188650		Elaboração de limite de crédito para Sicoob	0.00	09667930645	CAD	2020-09-24
+
+
+
+

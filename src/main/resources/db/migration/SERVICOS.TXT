@@ -1,0 +1,27 @@
+AGCAD	2020-07-29	Cadastro de uso insignificante	1	0.00
+AMIS	2020-07-29	Interpretação de análise de solo	1	0.00
+AMSL	2020-07-29	Envio de amostra de solo	10	25.00
+ATERBOV		ATER - Bovinocultura	1	0.00
+ATERMA		ATER - Meio ambiente	1	0.00
+CAD	2020-07-29	Elaboração de limite de crédito para Sicoob	2	150.00
+CAR	2020-07-29	Cadastro ambiental Rural - Emissão	2	200.00
+CAR2V	2020-07-30	Cadastro ambiental Rural - 2a via	1	0.00
+CARRET	2020-07-30	Cadastro ambiental Rural - Retificação	2	200.00
+CRCBBAF	2020-07-30	Banco do Brasil - Pronaf - Custeio - Elaboração de projeto de crédito rural custeio	7	150.00
+CRCBBMP	2020-07-30	Banco do Brasil - Pronamp - Elaboração de projeto de crédito rural custeio	7	150.00
+CRCSBB	2020-07-29	Banco do Brasil - Elaboração de projeto de crédito rural custeio	7	150.00
+CRCSSC	2020-07-29	Sicoob - Elaboração de projeto de crédito rural custeio	7	150.00
+CRIBBAF	2020-07-30	Banco do Brasil - Pronaf - Elaboração de projeto de crédito rural investimento	7	150.00
+CRICBBMP	2020-07-30	Banco do Brasil - Pronmp - Elaboração de projeto de crédito rural investimento	7	150.00
+CRINBB	2020-07-29	Banco do Brasil - Elaboração de projeto de crédito rural investimento	7	150.00
+CRINSC	2020-07-29	Sicoob - Elaboração de projeto de crédito rural invstimento	7	150.00
+CRMABB		Credito Rural Moderagro - Banco do Brasil	7	150.00
+DAP	2020-07-29	DAP - Emissão de Declaração de aptidão ao pronaf	2	0.00
+DAPCS	2020-07-30	DAP - Consulta irregularidade em acesso a DAP	1	0.00
+DAPDS	2020-07-30	DAP - Solicitação de desbloqueio de DAP	1	0.00
+GLB	2020-07-29	Gleba - elaboração de Geo referenciamento	2	50.00
+LM	2020-07-29	Elaboração de limite de crédito para Banco do Brasil	2	150.00
+PAA	2020-07-29	PAA - Elaboração de projeto	7	0.00
+PAAATER	2020-08-04	PAA - Orientações	1	0.00
+PNAE	2020-07-29	PNAE - Elaboração de projeto	7	0.00
+PNAEATER	2020-08-04	PNAE - Orientações	1	0.00
