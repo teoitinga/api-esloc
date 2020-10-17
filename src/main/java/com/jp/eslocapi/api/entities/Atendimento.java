@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -58,7 +61,12 @@ public class Atendimento {
 	@OneToMany(mappedBy = "servico", orphanRemoval = true)
 	private List<ServicosAtd> servicos;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "Atendimento_produtores",
+            joinColumns = {@JoinColumn(name = "atendimento_codigo")},
+            inverseJoinColumns = {@JoinColumn(name = "produtor_cpf")}
+    )
 	private List<Persona> produtores;
 	
 	@PrePersist
