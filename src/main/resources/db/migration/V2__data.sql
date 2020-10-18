@@ -1,5 +1,5 @@
 #Servico
-INSERT INTO `jp-esloc`.`servico` (`codigo`, `definicao`, `descricao`, `tempo_estimado`, `valor_estimado`, `grupo_codigo`) VALUES ('DC', 'Dia de Campo', 'Realização de Dia de campo', '1', '0', '5');
+#INSERT INTO `jp-esloc`.`servico` (`codigo`, `definicao`, `descricao`, `tempo_estimado`, `valor_estimado`, `grupo_codigo`) VALUES ('DC', 'Dia de Campo', 'Realização de Dia de campo', '1', '0', '5');
 
 #Grupo Servico
 INSERT INTO `jp-esloc`.`grupo_servico` (`codigo`, `descricao`) VALUES ('1', 'Credito Rural');
@@ -20,8 +20,8 @@ INSERT INTO `jp-esloc`.`uregi` (`cpi`, `email`, `endereco`, `fonefixo`, `municip
 INSERT INTO `jp-esloc`.`esloc` (`cpi`, `email`, `endereco`, `fonefixo`, `municipio`, `uregi_cpi`) VALUES ('h0684', 'tarumirim@emater.mg.gov.br', 'Av. Cunha', '3332331530', 'Tarumirim', 'G0013');
 
 #Tecnico
-INSERT INTO `jp-esloc`.`tecnico` (`matricula`, `conselho`, `password`, `permissao`, `registro`, `agente_cpf`, `esloc_cpi`) VALUES ('10639', 'CFTA', 'jacare', 'TECNICO', '04459471604', '04459471604', 'H0684');
+#INSERT INTO `jp-esloc`.`tecnico` (`matricula`, `conselho`, `password`, `permissao`, `registro`, `agente_cpf`, `esloc_cpi`) VALUES ('10639', 'CFTA', 'jacare', 'TECNICO', '04459471604', '04459471604', 'H0684');
 
 #Persona
-INSERT INTO `jp-esloc`.`persona` (`cpf`, `contato`, `email`, `emissor`, `produtores_codigo`, `index_conclusao`) VALUES ('04459471604', '33999065029', 'joao.gusmao@emater.mg.gov.br', '04459471604', '04459471604', '3');
+#INSERT INTO `jp-esloc`.`persona` (`cpf`, `contato`, `email`, `emissor`, `produtores_codigo`, `index_conclusao`) VALUES ('04459471604', '33999065029', 'joao.gusmao@emater.mg.gov.br', '04459471604', '04459471604', '3');
 

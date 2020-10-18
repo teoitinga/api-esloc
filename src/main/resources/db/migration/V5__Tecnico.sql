@@ -1,0 +1,4 @@
+insert into tecnicos(matricula, agente_cpf, password) values
+('10639', '04459471604','$2a$10$zPBR1U.L31AEnnaGX4rml.GqSOMk/FtCVFDd2lKKYm5MhDE2K9RWW'),
+('C0684', '08292904603','$2a$10$zPBR1U.L31AEnnaGX4rml.GqSOMk/FtCVFDd2lKKYm5MhDE2K9RWW'),
+('SC0684', '09298188650','$2a$10$zPBR1U.L31AEnnaGX4rml.GqSOMk/FtCVFDd2lKKYm5MhDE2K9RWW')
